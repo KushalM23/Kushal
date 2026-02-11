@@ -1,5 +1,5 @@
 export const profileData = {
-  name: "Kushal M",
+  name: "Kushal",
   tagline: "Full-Stack Developer · Builder · Problem Solver",
   bio: "I design and build software that solves real problems — from smart agriculture IoT dashboards to live sports scoreboards. I care deeply about clean code, thoughtful UX, and shipping products that people actually want to use.",
   github: "https://github.com/KushalM23",
