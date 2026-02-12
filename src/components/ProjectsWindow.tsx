@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projectsData, Project } from "@/data/mockData";
 import RetroWindow from "./RetroWindow";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    PROJECTS WINDOW
@@ -80,9 +81,9 @@ function ProjectFolder({ project, index }: { project: Project; index: number }) 
                         className="overflow-hidden"
                     >
                         <div className="paper-insert paper-lines px-4 py-4 pl-10 border-t border-border">
-                            <p className="typewriter-font text-xs leading-[28px] mb-3" style={{ color: "var(--color-ink)" }}>
-                                <span style={{ color: "var(--color-red)" }}>—</span> {project.description}
-                            </p>
+                            <div className="typewriter-font text-xs leading-[28px] mb-3" style={{ color: "var(--color-ink)" }}>
+                                <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={project.description} speed={10} delay={0.2} wrapperClassName="inline" />
+                            </div>
 
                             {/* Tech stack as cassette label tags */}
                             <div className="flex flex-wrap gap-1.5 mb-3">
@@ -126,7 +127,7 @@ function ProjectFolder({ project, index }: { project: Project; index: number }) 
 
 export default function ProjectsWindow() {
     return (
-        <section id="projects" className="px-4 md:px-8 mb-6">
+        <section id="projects" className="px-1 md:px-2 mb-6">
             <RetroWindow title="C:\PROJECTS" delay={0.15}>
                 {/* Header with cassette label and reel */}
                 <div className="h-8 border-b border-border flex items-center justify-between px-3 bg-bg-alt">

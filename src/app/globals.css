@@ -17,7 +17,8 @@
   --color-titlebar: #DDD6C8;
   --color-paper: #FDFBF7;
   --color-ink: #2C2416;
-  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  --color-yellow: #FFB703;
+  --font-mono: "Aleo", "IBM Plex Mono", "Courier New", monospace;
   --font-display: "Special Elite", "Courier New", cursive;
 }
 
@@ -45,17 +46,11 @@ body {
 }
 
 .crt-scanlines {
-  background: repeating-linear-gradient(0deg,
-      rgba(0, 0, 0, 0.03) 0px,
-      rgba(0, 0, 0, 0.03) 1px,
-      transparent 1px,
-      transparent 3px);
+  background: none;
 }
 
 .crt-vignette {
-  background: radial-gradient(ellipse at center,
-      transparent 60%,
-      rgba(44, 36, 22, 0.08) 100%);
+  background: none;
 }
 
 /* ──────── ANIMATIONS ──────── */
@@ -212,8 +207,8 @@ body {
 }
 
 .retro-titlebar-btns span:nth-child(2):hover {
-  background: var(--color-amber);
-  border-color: var(--color-amber);
+  background: var(--color-yellow);
+  border-color: var(--color-yellow);
 }
 
 .retro-titlebar-btns span:nth-child(3):hover {
@@ -221,28 +216,21 @@ body {
   border-color: var(--color-green);
 }
 
-/* ──────── TYPEWRITER PAPER INSERT ──────── */
+/* ──────── CLEAN CONTENT PANEL ──────── */
 .paper-insert {
-  background: var(--color-paper);
+  background: var(--color-bg-window);
   color: var(--color-ink);
   position: relative;
 }
 
+/* Remove the red margin line */
 .paper-insert::before {
-  content: "";
-  position: absolute;
-  left: 48px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(230, 57, 70, 0.2);
+  display: none;
 }
 
+/* Remove all background patterns/lines */
 .paper-lines {
-  background-image: repeating-linear-gradient(transparent,
-      transparent 27px,
-      rgba(44, 36, 22, 0.06) 27px,
-      rgba(44, 36, 22, 0.06) 28px);
+  background-image: none;
 }
 
 /* ──────── SCROLLBAR ──────── */

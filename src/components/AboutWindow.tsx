@@ -6,6 +6,7 @@ import Image from "next/image";
 import { profileData } from "@/data/mockData";
 import RetroWindow from "./RetroWindow";
 import CassetteWidget from "./CassetteWidget";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    ABOUT WINDOW
@@ -19,8 +20,8 @@ export default function AboutWindow() {
     const bioChars = profileData.bio.split("");
 
     return (
-        <section id="about" className="px-4 md:px-8 mb-6">
-            <RetroWindow title="ABOUT.exe" delay={0.1}>
+        <section id="about" className="px-1 md:px-2 mb-6">
+            <RetroWindow title="ABOUT.txt" delay={0.1}>
                 <div className="p-6 md:p-8">
                     <div className="flex flex-col md:flex-row gap-8">
                         {/* Profile photo — retro viewfinder */}
@@ -39,7 +40,7 @@ export default function AboutWindow() {
                                     <div
                                         className="absolute inset-0 pointer-events-none"
                                         style={{
-                                            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px)",
+                                            background: "none",
                                         }}
                                     />
                                 </div>
@@ -72,22 +73,12 @@ export default function AboutWindow() {
                             {/* Typewriter paper with bio */}
                             <div className="paper-insert paper-lines p-5 pl-14 mb-6">
                                 <div className="text-sm leading-[28px]" style={{ color: "var(--color-ink)" }}>
-                                    {bioChars.map((char, i) => (
-                                        <motion.span
-                                            key={i}
-                                            className="typewriter-font"
-                                            initial={{ opacity: 0 }}
-                                            whileInView={{ opacity: 1 }}
-                                            viewport={{ once: false, margin: "-50px" }}
-                                            transition={{
-                                                delay: 0.4 + i * 0.008,
-                                                duration: 0.01,
-                                            }}
-                                        >
-                                            {char}
-                                        </motion.span>
-                                    ))}
-                                    <span className="inline-block w-1.5 h-4 bg-red ml-0.5 align-text-bottom animate-cursor-blink" />
+                                    <TypewriterText
+                                        text={profileData.bio}
+                                        className="typewriter-font"
+                                        delay={0.4}
+                                        speed={15}
+                                    />
                                 </div>
                             </div>
 

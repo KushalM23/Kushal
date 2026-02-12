@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { profileData } from "@/data/mockData";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    RETRO BOOT SCREEN → SHRINKING HEADER
@@ -40,7 +41,7 @@ function CassetteRewind() {
                 <motion.div
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: "repeating-linear-gradient(90deg, var(--color-fg-muted) 0px, var(--color-fg-muted) 4px, transparent 4px, transparent 8px)",
+                        backgroundImage: "none",
                     }}
                     animate={{ x: [0, 8] }}
                     transition={{
@@ -81,7 +82,7 @@ export default function RetroBootScreen() {
         return () => window.removeEventListener("resize", onResize);
     }, []);
 
-    const scrollEnd = vh * 1.5;
+    const scrollEnd = vh * 1.0;
     const { scrollY } = useScroll();
 
     const sectionHeight = useTransform(scrollY, [0, scrollEnd], [vh, HEADER_H], { clamp: true });
@@ -108,20 +109,7 @@ export default function RetroBootScreen() {
                             fontSize: nameFontSize,
                         }}
                     >
-                        {nameChars.map((char, i) => (
-                            <motion.span
-                                key={i}
-                                className="inline-block"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{
-                                    delay: 0.3 + i * 0.08,
-                                    duration: 0.01,
-                                }}
-                            >
-                                {char}
-                            </motion.span>
-                        ))}
+                        <TypewriterText text={profileData.name} delay={0.3} speed={50} />
                     </motion.h1>
                 </div>
 
@@ -138,14 +126,14 @@ export default function RetroBootScreen() {
                         <CassetteRewind />
                     </motion.div>
 
-                    <motion.p
+                    <motion.div
                         className="text-xs text-fg-muted tracking-[0.15em] uppercase"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1.8, duration: 0.3 }}
                     >
-                        ↓ Scroll to begin playback ↓
-                    </motion.p>
+                        <TypewriterText text="Scroll to begin playback" delay={2.0} speed={20} showCursor={true} />
+                    </motion.div>
                 </motion.div>
             </motion.div>
 

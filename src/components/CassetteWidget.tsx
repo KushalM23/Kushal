@@ -1,6 +1,6 @@
 "use client";
 
-import { IconPlayerPlay, IconPlayerPause, IconPlayerStop, IconPlayerTrackNext, IconPlayerTrackPrev } from "@tabler/icons-react";
+import { IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerStopFilled, IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled } from "@tabler/icons-react";
 
 /* ──────────────────────────────────────────────
    CASSETTE WIDGET
@@ -15,7 +15,7 @@ export default function CassetteWidget() {
         <div className="cassette-body p-5 md:p-6">
             {/* Cassette label */}
             <div className="text-center mb-4">
-                <span className="tape-label">◉ PORTFOLIO MIX — SIDE A ◉</span>
+                <span className="tape-label">PORTFOLIO MIX — SIDE A</span>
             </div>
 
             {/* Tape window — the transparent part of a cassette */}
@@ -45,8 +45,7 @@ export default function CassetteWidget() {
                     {/* Tape between reels */}
                     <div className="flex flex-col items-center gap-1 flex-1">
                         <div className="w-full border-t border-fg-faint" />
-                        <div className="w-full border-t border-dashed border-border" />
-                        <div className="w-full border-t border-fg-faint" />
+                        <div className="w-full h-[1px] bg-border" style={{ backgroundImage: 'none', backgroundSize: '4px 4px' }} />                   <div className="w-full border-t border-fg-faint" />
                     </div>
 
                     {/* Right reel */}
@@ -73,20 +72,11 @@ export default function CassetteWidget() {
 
             {/* Transport controls — physical buttons */}
             <div className="flex items-center justify-center gap-2 mt-5">
-                <button className="retro-btn text-[10px] px-3 py-1.5">  <IconPlayerTrackPrev /></button>
-                <button className="retro-btn text-[10px] px-5 py-1.5 bg-red text-white border-red font-bold"><IconPlayerPlay /></button>
-                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerPause /></button>
-                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerStop /></button>
-                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerTrackNext /></button>
-            </div>
-
-            {/* Bottom label */}
-            <div className="mt-4 flex items-center justify-center gap-4">
-                <div className="flex-1 border-t border-dashed border-border" />
-                <span className="text-[8px] text-fg-faint tracking-[0.25em] uppercase">
-                    TYPE II — HIGH BIAS — 2026
-                </span>
-                <div className="flex-1 border-t border-dashed border-border" />
+                <button className="retro-btn text-[10px] px-3 py-1.5">  <IconPlayerTrackPrevFilled /></button>
+                <button className="retro-btn text-[10px] px-5 py-1.5 bg-red text-white border-red font-bold"><IconPlayerPlayFilled /></button>
+                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerPauseFilled /></button>
+                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerStopFilled /></button>
+                <button className="retro-btn text-[10px] px-3 py-1.5"><IconPlayerTrackNextFilled /></button>
             </div>
         </div>
     );

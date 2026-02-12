@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { profileData } from "@/data/mockData";
 import RetroWindow from "./RetroWindow";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    NOTEPAD WINDOW
@@ -14,7 +15,7 @@ import RetroWindow from "./RetroWindow";
 
 export default function NotepadWindow() {
     return (
-        <section id="contact" className="px-4 md:px-8 mb-6">
+        <section id="contact" className="px-1 md:px-2 mb-6">
             <RetroWindow
                 title="COMPOSE_MESSAGE.txt — Notepad"
                 variant="notepad"
@@ -23,7 +24,6 @@ export default function NotepadWindow() {
             >
                 {/* Typewriter paper body */}
                 <div className="paper-insert paper-lines p-6 pl-14 md:p-8 md:pl-16">
-                    {/* Typed header */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
@@ -32,10 +32,10 @@ export default function NotepadWindow() {
                         className="mb-8"
                     >
                         <h2 className="typewriter-font text-xl md:text-2xl mb-2" style={{ color: "var(--color-ink)" }}>
-                            Get in Touch<span style={{ color: "var(--color-red)" }}>_</span>
+                            <TypewriterText text="Get in Touch" delay={0.2} />
                         </h2>
                         <p className="typewriter-font text-xs leading-[28px]" style={{ color: "rgba(44,36,22,0.5)" }}>
-                            Want to collaborate? Have a question? Type below.
+                            <TypewriterText text="Want to collaborate? Have a question? Type below." delay={0.8} speed={15} />
                         </p>
                     </motion.div>
 

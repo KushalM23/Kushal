@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { experienceData } from "@/data/mockData";
 import RetroWindow from "./RetroWindow";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    TERMINAL WINDOW → TYPEWRITER DOCUMENT
@@ -15,7 +16,7 @@ import RetroWindow from "./RetroWindow";
 
 export default function TerminalWindow() {
     return (
-        <section id="experience" className="px-4 md:px-8 mb-6">
+        <section id="experience" className="px-1 md:px-2 mb-6">
             <RetroWindow title="CAREER_LOG.doc" variant="normal" delay={0.2}>
                 {/* Document header */}
                 <div className="px-5 py-3 border-b border-border flex items-center justify-between">
@@ -54,35 +55,28 @@ export default function TerminalWindow() {
                                 className="typewriter-font text-lg md:text-xl mb-0.5"
                                 style={{ color: "var(--color-ink)" }}
                             >
-                                {exp.title}
+                                <TypewriterText text={exp.title} delay={0.2} />
                             </h3>
                             <p className="text-sm mb-1" style={{ color: "var(--color-red)" }}>
-                                @ {exp.company}
+                                @ <TypewriterText text={exp.company} delay={0.4} />
                             </p>
                             <p
                                 className="text-[11px] mb-3 tracking-wider uppercase"
                                 style={{ color: "var(--color-fg-faint)" }}
                             >
-                                {exp.dates}
+                                <TypewriterText text={exp.dates} delay={0.6} speed={10} />
                             </p>
 
                             {/* Bullets — typed on the paper */}
                             <div className="space-y-2">
                                 {exp.bullets.map((b, idx) => (
-                                    <motion.p
+                                    <div
                                         key={idx}
                                         className="typewriter-font text-xs leading-[28px]"
                                         style={{ color: "var(--color-ink)" }}
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: false }}
-                                        transition={{
-                                            delay: 0.2 + i * 0.1 + idx * 0.05,
-                                            duration: 0.01,
-                                        }}
                                     >
-                                        <span style={{ color: "var(--color-red)" }}>—</span> {b}
-                                    </motion.p>
+                                        <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" />
+                                    </div>
                                 ))}
                             </div>
 

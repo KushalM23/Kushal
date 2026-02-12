@@ -26,7 +26,7 @@ export default function Home() {
       <RetroBootScreen />
 
       {/* Desktop — content windows */}
-      <main className="relative max-w-5xl mx-auto pb-8 pt-4">
+      <main className="relative max-w-7xl mx-auto pb-8 pt-24 px-2 md:px-4">
         <AboutWindow />
         <ProjectsWindow />
         <TerminalWindow />

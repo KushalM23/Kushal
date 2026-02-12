@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
    RETRO WINDOW
@@ -52,7 +53,7 @@ export default function RetroWindow({
                     <span />
                 </div>
                 <span className={`flex-1 text-center ${isTerminal ? "text-green" : "text-fg-muted"}`}>
-                    {title}
+                    <TypewriterText text={title} delay={delay + 0.2} speed={50} showCursor={false} />
                 </span>
                 <span className="text-fg-faint w-[52px] text-right">
                     {variant === "terminal" ? "bash" : variant === "notepad" ? "txt" : "exe"}

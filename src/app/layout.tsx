@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Special_Elite } from "next/font/google";
+import { Aleo } from "next/font/google";
 import "./globals.css";
 
-const ibmPlexMono = IBM_Plex_Mono({
+const aleo = Aleo({
   subsets: ["latin"],
   variable: "--font-mono",
   weight: ["400", "500", "600", "700"],
-});
-
-const specialElite = Special_Elite({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${ibmPlexMono.variable} ${specialElite.variable}`}>
+    <html lang="en" className={`${aleo.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );
