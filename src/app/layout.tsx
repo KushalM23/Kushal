@@ -9,8 +9,8 @@ const aleo = Aleo({
 });
 
 export const metadata: Metadata = {
-  title: "KUSHAL_OS // Portfolio",
-  description: "Full-Stack Developer. Builder. Problem Solver.",
+  title: "Kushal",
+  description: "Software Engineer.",
 };
 
 export default function RootLayout({

@@ -35,6 +35,14 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: auto;
   line-height: 1.6;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" stroke="white" stroke-width="1" d="M5.5 3.2L5.5 17.5L8.9 14.1L12.4 21.6L14.7 20.5L11.1 12.9L16.2 12.9L5.5 3.2Z"/></svg>') 0 0, auto;
+}
+
+a,
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" stroke="white" stroke-width="1" d="M5.5 3.2L5.5 17.5L8.9 14.1L12.4 21.6L14.7 20.5L11.1 12.9L16.2 12.9L5.5 3.2Z"/></svg>') 0 0, pointer;
 }
 
 /* ──────── CRT SCANLINES (subtle on light) ──────── */
@@ -271,6 +279,7 @@ body {
   padding: 8px 16px;
   cursor: pointer;
   transition: all 0.1s;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" stroke="white" stroke-width="1" d="M5.5 3.2L5.5 17.5L8.9 14.1L12.4 21.6L14.7 20.5L11.1 12.9L16.2 12.9L5.5 3.2Z"/></svg>') 0 0, pointer;
 }
 
 .retro-btn:hover {

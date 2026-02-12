@@ -14,13 +14,13 @@ import TypewriterText from "./TypewriterText";
    styling with mechanical key-strike animations.
    ────────────────────────────────────────────── */
 
-export default function TerminalWindow() {
+export default function ExperienceSection() {
     return (
         <section id="experience" className="px-1 md:px-2 mb-6">
-            <RetroWindow title="CAREER_LOG.doc" variant="normal" delay={0.2}>
+            <RetroWindow title="EXPERIENCE.doc" variant="normal" delay={0.2}>
                 {/* Document header */}
                 <div className="px-5 py-3 border-b border-border flex items-center justify-between">
-                    <span className="tape-label">▶ SIDE B — EXPERIENCE</span>
+                    <span className="tape-label">▶ SIDE B — CAREER LOG</span>
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 animate-reel-slow opacity-50">
                             <svg viewBox="0 0 16 16">

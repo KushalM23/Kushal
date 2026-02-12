@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import { soundManager } from "@/utils/sounds";
 
 interface TypewriterTextProps {
     text: string;
@@ -11,6 +12,7 @@ interface TypewriterTextProps {
     cursorColor?: string;
     wrapperClassName?: string;
     showCursor?: boolean;
+    mute?: boolean;
 }
 
 export default function TypewriterText({
@@ -21,6 +23,7 @@ export default function TypewriterText({
     cursorColor = "text-red",
     wrapperClassName = "",
     showCursor = true,
+    mute = false,
 }: TypewriterTextProps) {
     const [displayedText, setDisplayedText] = useState("");
     const [isComplete, setIsComplete] = useState(false);
@@ -39,8 +42,13 @@ export default function TypewriterText({
             const startTimeout = setTimeout(() => {
                 intervalId = setInterval(() => {
                     if (currentIndex < text.length) {
-                        // Use slice instead of appending to avoid state synchronization issues
-                        // and ensure we never access out of bounds
+                        const char = text[currentIndex];
+
+                        // Play sound (skip spaces for better rhythm)
+                        if (!mute && char !== " ") {
+                            soundManager?.playTypewriterClick();
+                        }
+
                         setDisplayedText(text.slice(0, currentIndex + 1));
                         currentIndex++;
                     } else {
@@ -55,7 +63,7 @@ export default function TypewriterText({
                 if (intervalId) clearInterval(intervalId);
             };
         }
-    }, [isInView, text, delay, speed]);
+    }, [isInView, text, delay, speed, mute]);
 
     return (
         <span ref={ref} className={`${wrapperClassName} inline-block`}>
