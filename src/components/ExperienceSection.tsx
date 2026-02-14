@@ -29,7 +29,7 @@ export default function ExperienceSection() {
                                 <circle cx="8" cy="8" r="1" fill="var(--color-fg-faint)" />
                             </svg>
                         </div>
-                        <span className="text-[10px] text-fg-faint">{experienceData.length} entries</span>
+                        <span className="text-[10px] text-fg-faint">{experienceData.length} entry</span>
                     </div>
                 </div>
 
@@ -55,9 +55,9 @@ export default function ExperienceSection() {
                                 className="typewriter-font text-lg md:text-xl mb-0.5"
                                 style={{ color: "var(--color-ink)" }}
                             >
-                                <TypewriterText text={exp.title} delay={0.2} showCursor={true} />
+                                <TypewriterText className="text-xl font-bold" text={exp.title} delay={0.2} showCursor={true} />
                             </h3>
-                            <p className="text-sm mb-1" style={{ color: "var(--color-red)" }}>
+                            <p className="text-sm typewriter-font font-semibold mb-1" style={{ color: "var(--color-red)" }}>
                                 @ <TypewriterText text={exp.company} delay={0.4} showCursor={true} />
                             </p>
                             <p
@@ -72,7 +72,7 @@ export default function ExperienceSection() {
                                 {exp.bullets.map((b, idx) => (
                                     <div
                                         key={idx}
-                                        className="typewriter-font text-xs leading-7"
+                                        className="typewriter-font text-md leading-7"
                                         style={{ color: "var(--color-ink)" }}
                                     >
                                         <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" showCursor={true} />

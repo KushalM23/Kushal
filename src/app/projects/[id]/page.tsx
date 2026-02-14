@@ -130,7 +130,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                 <ul className="grid gap-2">
                                     {project.features?.map((feature, i) => (
                                         <li key={i} className="flex items-start gap-2">
-                                            <TypewriterText text={feature} delay={0.8 + (i * 0.2)} speed={20} showCursor={true} />
+                                            <span className="text-red">— </span><TypewriterText text={feature} delay={0.8 + (i * 0.2)} speed={20} showCursor={true} />
                                         </li>
                                     )) || (
                                             <li className="text-fg-faint italic">// No features listed.</li>

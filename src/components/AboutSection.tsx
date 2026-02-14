@@ -55,16 +55,22 @@ export default function AboutSection() {
                                 transition={{ duration: 0.01, delay: 0.2 }}
                             >
                                 <h1 className="typewriter-font text-3xl md:text-4xl text-fg mb-1">
-                                    {profileData.name}<span className="text-red">_</span>
+                                    {profileData.name}
                                 </h1>
-                                <p className="text-xs text-fg-muted tracking-widest uppercase mb-4">
-                                    [{profileData.tagline}]
-                                </p>
+                                <div className="text-lg">
+                                    <TypewriterText
+                                        text={`[${profileData.tagline}]`}
+                                        className="typewriter-font"
+                                        delay={0.4}
+                                        speed={15}
+                                        showCursor={true}
+                                    />
+                                    </div>
                             </motion.div>
 
                             {/* Typewriter paper with bio */}
                             <div className="paper-insert paper-lines p-5 pl-14 mb-6">
-                                <div className="text-sm leading-7 text-fg">
+                                <div className="text-md leading-7 text-fg">
                                     <TypewriterText
                                         text={profileData.bio}
                                         className="typewriter-font"

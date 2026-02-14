@@ -4,6 +4,7 @@ import React from "react";
 import RetroWindow from "./RetroWindow";
 import { blogData, BlogPost } from "@/data/mockData";
 import { IconArrowRight } from "@tabler/icons-react";
+import TypewriterText  from "@/components/TypewriterText"
 import Link from "next/link";
 
 export default function BlogSection() {
@@ -30,11 +31,7 @@ export default function BlogSection() {
                                         {post.date}
                                     </span>
                                 </div>
-
-                                <p className="text-xs text-fg-muted font-mono mb-2 leading-relaxed max-w-2xl pl-6 border-l border-border-light group-hover:border-red/30 transition-colors">
-                                    {post.excerpt}
-                                </p>
-
+                                <TypewriterText text={post.excerpt} className="typewriter-font" speed={15} delay={0.1} showCursor={true} />
                                 <div className="pl-6">
                                     <span className="text-[10px] text-red opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 inline-flex items-center gap-1">
                                         READ_ENTRY <IconArrowRight size={10} />

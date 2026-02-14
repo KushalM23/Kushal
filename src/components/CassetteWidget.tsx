@@ -122,8 +122,8 @@ export default function CassetteWidget() {
     }, [status, stopAtBoundary]);
 
     // Calculate radii based on progress
-    const leftReelRadius = 12 + (24 - 12) * (1 - tapeProgress);
-    const rightReelRadius = 12 + (24 - 12) * tapeProgress;
+    const leftReelRadius = 4 + (24 - 2) * (1 - tapeProgress);
+    const rightReelRadius = 4 + (24 - 2) * tapeProgress;
 
     // Determine if transport is active (reels should spin)
     const isActive = status === "playing" || status === "fastforwarding" || status === "rewinding";

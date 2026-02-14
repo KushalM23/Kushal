@@ -52,10 +52,10 @@ export default function RetroWindow({
                     <span />
                     <span />
                 </div>
-                <span className={`flex-1 text-center ${isTerminal ? "text-green" : "text-fg-muted"}`}>
+                <span className={"flex-1 text-lg text-center text-fg-muted"}>
                     <TypewriterText text={title} delay={delay + 0.2} speed={50} showCursor={true} />
                 </span>
-                <span className="text-fg-faint w-[52px] text-right">
+                <span className="text-fg-faint w-13 text-right">
                     {variant === "terminal" ? "bash" : variant === "notepad" ? "txt" : "exe"}
                 </span>
             </div>

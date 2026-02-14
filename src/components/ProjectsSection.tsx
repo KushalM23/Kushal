@@ -17,23 +17,25 @@ import { IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
 
 function FolderIcon({ open }: { open: boolean }) {
     return (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 transition-all duration-300 ease-out shrink-0">
-            {open ? (
-                <g>
-                    {/* Open Folder */}
-                    <path d="M4 6V20H20V8H14L12 6H4Z" fill="var(--color-bg-alt)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
-                    {/* Front flap open/down */}
-                    <path d="M4 14L6 20H18L20 14H4Z" fill="var(--color-bg)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
-                </g>
-            ) : (
-                <g>
-                    {/* Closed Folder */}
-                    <path d="M4 6H12L14 8H20V18H4V6Z" fill="var(--color-bg)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
-                    {/* Front flap */}
-                    <path d="M4 9H20V18H4V9Z" fill="var(--color-bg-alt)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
-                </g>
-            )}
-        </svg>
+        <div className=" bg-bg-window p-2 flex items-center justify-center hover:border-red transition-colors">
+            <svg viewBox="0 0 24 24" className="w-8 h-8 transition-all duration-300 ease-out shrink-0">
+                {open ? (
+                    <g>
+                        {/* Open Folder */}
+                        <path d="M4 6V20H20V8H14L12 6H4Z" fill="var(--color-fg-muted)" stroke="var(--color-border)" strokeWidth="1.5" />
+                        {/* Front flap open/down */}
+                        <path d="M4 14L6 20H18L20 14H4Z" fill="var(--color-fg-faint)" stroke="var(--color-border)" strokeWidth="1.5" />
+                    </g>
+                ) : (
+                    <g>
+                        {/* Closed Folder */}
+                        <path d="M4 6H12L14 8H20V18H4V6Z" fill="var(--color-fg-muted)" stroke="var(--color-border)" strokeWidth="1.5" />
+                        {/* Front flap */}
+                        <path d="M4 9H20V18H4V9Z" fill="var(--color-fg-faint)" stroke="var(--color-border)" strokeWidth="1.5" />
+                    </g>
+                )}
+            </svg>
+        </div>
     );
 }
 
@@ -73,7 +75,7 @@ function ProjectFolder({
 
                 <div className="flex-1 min-w-0 flex items-center justify-between">
                     <div>
-                        <h3 className={`font-bold text-fg typewriter-font truncate transition-all ${isActive ? 'text-lg text-red' : 'text-sm'}`}>
+                        <h3 className={`font-bold text-fg text-lg typewriter-font truncate transition-all ${isActive && ' text-red'}`}>
                             {project.title}
                         </h3>
                         <p className="text-[10px] text-fg-faint tracking-wider mt-0.5">
@@ -102,7 +104,7 @@ function ProjectFolder({
                         style={{ willChange: "height, opacity", overflow: "hidden" }}
                     >
                         <div className="px-4 md:px-16 pb-2 border-t border-dashed border-border-strong pt-4 mx-4">
-                            <div className="typewriter-font text-xs leading-relaxed mb-4 text-fg-muted max-w-2xl">
+                            <div className="typewriter-font text-md leading-relaxed mb-4 text-fg-muted">
                                 <TypewriterText text={project.description} speed={15} delay={0.1} showCursor={true} />
                             </div>
 
