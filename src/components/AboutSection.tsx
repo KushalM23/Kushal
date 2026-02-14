@@ -17,7 +17,6 @@ import TypewriterText from "./TypewriterText";
    ────────────────────────────────────────────── */
 
 export default function AboutSection() {
-    const bioChars = profileData.bio.split("");
 
     return (
         <section id="about" className="px-1 md:px-2 mb-6">
@@ -25,9 +24,9 @@ export default function AboutSection() {
                 <div className="p-6 md:p-8">
                     <div className="flex flex-col md:flex-row gap-8">
                         {/* Profile photo — retro viewfinder */}
-                        <div className="flex-shrink-0 flex flex-col items-center gap-3">
+                        <div className="shrink-0 flex flex-col items-center gap-3">
                             <div className="relative">
-                                <div className="w-36 h-36 md:w-44 md:h-44 border-2 border-border-light overflow-hidden bg-bg">
+                                <div className="w-36 h-36 md:w-44 md:h-44 border-2 border-border-strong overflow-hidden bg-bg">
                                     <Image
                                         src="/profile pic wo bg.png"
                                         alt="Kushal"
@@ -52,25 +51,26 @@ export default function AboutSection() {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
-                                viewport={{ once: false }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.01, delay: 0.2 }}
                             >
                                 <h1 className="typewriter-font text-3xl md:text-4xl text-fg mb-1">
                                     {profileData.name}<span className="text-red">_</span>
                                 </h1>
-                                <p className="text-xs text-fg-muted tracking-[0.1em] uppercase mb-4">
+                                <p className="text-xs text-fg-muted tracking-widest uppercase mb-4">
                                     [{profileData.tagline}]
                                 </p>
                             </motion.div>
 
                             {/* Typewriter paper with bio */}
                             <div className="paper-insert paper-lines p-5 pl-14 mb-6">
-                                <div className="text-sm leading-[28px]" style={{ color: "var(--color-ink)" }}>
+                                <div className="text-sm leading-7 text-fg">
                                     <TypewriterText
                                         text={profileData.bio}
                                         className="typewriter-font"
                                         delay={0.4}
                                         speed={15}
+                                        showCursor={true}
                                     />
                                 </div>
                             </div>

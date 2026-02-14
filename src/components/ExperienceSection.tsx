@@ -41,7 +41,7 @@ export default function ExperienceSection() {
                             className="mb-8 last:mb-2"
                             initial={{ opacity: 0, y: 6 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: false, margin: "-40px" }}
+                            viewport={{ once: true, margin: "-40px" }}
                             transition={{
                                 delay: 0.1 + i * 0.1,
                                 duration: 0.15,
@@ -55,16 +55,16 @@ export default function ExperienceSection() {
                                 className="typewriter-font text-lg md:text-xl mb-0.5"
                                 style={{ color: "var(--color-ink)" }}
                             >
-                                <TypewriterText text={exp.title} delay={0.2} />
+                                <TypewriterText text={exp.title} delay={0.2} showCursor={true} />
                             </h3>
                             <p className="text-sm mb-1" style={{ color: "var(--color-red)" }}>
-                                @ <TypewriterText text={exp.company} delay={0.4} />
+                                @ <TypewriterText text={exp.company} delay={0.4} showCursor={true} />
                             </p>
                             <p
                                 className="text-[11px] mb-3 tracking-wider uppercase"
                                 style={{ color: "var(--color-fg-faint)" }}
                             >
-                                <TypewriterText text={exp.dates} delay={0.6} speed={10} />
+                                <TypewriterText text={exp.dates} delay={0.6} speed={10} showCursor={true} />
                             </p>
 
                             {/* Bullets — typed on the paper */}
@@ -72,10 +72,10 @@ export default function ExperienceSection() {
                                 {exp.bullets.map((b, idx) => (
                                     <div
                                         key={idx}
-                                        className="typewriter-font text-xs leading-[28px]"
+                                        className="typewriter-font text-xs leading-7"
                                         style={{ color: "var(--color-ink)" }}
                                     >
-                                        <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" />
+                                        <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" showCursor={true} />
                                     </div>
                                 ))}
                             </div>

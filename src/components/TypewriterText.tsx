@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { soundManager } from "@/utils/sounds";
 
 interface TypewriterTextProps {
@@ -22,17 +22,19 @@ export default function TypewriterText({
     speed = 30,
     cursorColor = "text-red",
     wrapperClassName = "",
-    showCursor = true,
-    mute = false,
+    showCursor = false,
+    mute = true,
 }: TypewriterTextProps) {
     const [displayedText, setDisplayedText] = useState("");
     const [isComplete, setIsComplete] = useState(false);
     const ref = React.useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
+    // Auto-adjust speed for long text to avoid painfully slow rendering
+    const effectiveSpeed = text.length > 100 ? Math.min(speed, 8) : text.length > 50 ? Math.min(speed, 15) : speed;
+
     useEffect(() => {
         if (isInView) {
-            // Reset state when effect runs
             setDisplayedText("");
             setIsComplete(false);
 
@@ -44,7 +46,8 @@ export default function TypewriterText({
                     if (currentIndex < text.length) {
                         const char = text[currentIndex];
 
-                        // Play sound (skip spaces for better rhythm)
+                        // Typewriter sound only plays when explicitly enabled (mute=false)
+                        // Only the boot screen name typing should set mute=false
                         if (!mute && char !== " ") {
                             soundManager?.playTypewriterClick();
                         }
@@ -55,7 +58,7 @@ export default function TypewriterText({
                         clearInterval(intervalId);
                         setIsComplete(true);
                     }
-                }, speed);
+                }, effectiveSpeed);
             }, delay * 1000);
 
             return () => {
@@ -63,10 +66,10 @@ export default function TypewriterText({
                 if (intervalId) clearInterval(intervalId);
             };
         }
-    }, [isInView, text, delay, speed, mute]);
+    }, [isInView, text, delay, effectiveSpeed, mute]);
 
     return (
-        <span ref={ref} className={`${wrapperClassName} inline-block`}>
+        <span ref={ref} className={wrapperClassName}>
             <span className={className}>{displayedText}</span>
             {showCursor && (
                 <span className={`${cursorColor} inline-block ml-0.5 font-bold animate-cursor-blink`}>

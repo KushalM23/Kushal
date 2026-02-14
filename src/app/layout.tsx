@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Aleo } from "next/font/google";
 import "./globals.css";
+import ButtonClickSound from "@/components/ButtonClickSound";
 
 const aleo = Aleo({
   subsets: ["latin"],
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${aleo.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <ButtonClickSound />
+        {children}
+      </body>
     </html>
   );
 }

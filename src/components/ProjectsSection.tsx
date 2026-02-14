@@ -17,20 +17,20 @@ import { IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
 
 function FolderIcon({ open }: { open: boolean }) {
     return (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 transition-colors duration-150 flex-shrink-0">
+        <svg viewBox="0 0 24 24" className="w-8 h-8 transition-all duration-300 ease-out shrink-0">
             {open ? (
                 <g>
                     {/* Open Folder */}
-                    <path d="M4 6V20H20V8H14L12 6H4Z" fill="var(--color-bg-alt)" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <path d="M4 6V20H20V8H14L12 6H4Z" fill="var(--color-bg-alt)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
                     {/* Front flap open/down */}
-                    <path d="M4 14L6 20H18L20 14H4Z" fill="var(--color-bg)" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <path d="M4 14L6 20H18L20 14H4Z" fill="var(--color-bg)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
                 </g>
             ) : (
                 <g>
                     {/* Closed Folder */}
-                    <path d="M4 6H12L14 8H20V18H4V6Z" fill="var(--color-bg)" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <path d="M4 6H12L14 8H20V18H4V6Z" fill="var(--color-bg)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
                     {/* Front flap */}
-                    <path d="M4 9H20V18H4V9Z" fill="var(--color-bg-alt)" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <path d="M4 9H20V18H4V9Z" fill="var(--color-bg-alt)" stroke="var(--color-border-strong)" strokeWidth="1.5" />
                 </g>
             )}
         </svg>
@@ -53,14 +53,16 @@ function ProjectFolder({
     return (
         <motion.div
             layout
-            className={`border border-border bg-bg-window hover:border-border-light transition-all cursor-pointer overflow-hidden ${isActive ? 'pb-4' : ''}`}
+            className={`border border-border bg-bg-window hover:border-border-strong transition-colors cursor-pointer overflow-hidden ${isActive ? 'pb-4' : ''}`}
             onClick={onClick}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{
-                delay: index * 0.1,
-                duration: 0.3,
+                delay: index * 0.08,
+                duration: 0.4,
+                ease: [0.25, 0.1, 0.25, 1],
+                layout: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
             }}
         >
             {/* Header/Tab */}
@@ -78,7 +80,7 @@ function ProjectFolder({
                             TRACK {num} // {project.techStack[0]}
                         </p>
                     </div>
-                    <div className={`transform transition-transform duration-300 ${isActive ? 'rotate-90' : 'rotate-0'}`}>
+                    <div className={`transform transition-transform duration-400 ease-in-out ${isActive ? 'rotate-90' : 'rotate-0'}`}>
                         <svg viewBox="0 0 24 24" className="w-4 h-4 text-fg-muted" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M9 18l6-6-6-6" />
                         </svg>
@@ -87,17 +89,21 @@ function ProjectFolder({
             </div>
 
             {/* Content - Only visible when active */}
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
                 {isActive && (
                     <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        transition={{
+                            height: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                            opacity: { duration: 0.3, ease: "easeOut", delay: 0.05 },
+                        }}
+                        style={{ willChange: "height, opacity", overflow: "hidden" }}
                     >
-                        <div className="px-4 md:px-16 pb-2 border-t border-dashed border-border-light pt-4 mx-4">
+                        <div className="px-4 md:px-16 pb-2 border-t border-dashed border-border-strong pt-4 mx-4">
                             <div className="typewriter-font text-xs leading-relaxed mb-4 text-fg-muted max-w-2xl">
-                                <TypewriterText text={project.description} speed={15} delay={0.1} />
+                                <TypewriterText text={project.description} speed={15} delay={0.1} showCursor={true} />
                             </div>
 
                             {/* Tech stack */}
@@ -114,7 +120,11 @@ function ProjectFolder({
                                 <Link
                                     href={`/projects/${project.id}`}
                                     className="retro-btn text-xs flex items-center gap-2 group"
-                                    onClick={(e) => e.stopPropagation()}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        sessionStorage.setItem("home:preserve-scroll", "1");
+                                        sessionStorage.setItem("home:scroll-pos", String(window.scrollY));
+                                    }}
                                 >
                                     <span>VIEW_DETAILS</span>
                                 </Link>

@@ -24,7 +24,9 @@
 
 /* ──────── BASE ──────── */
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior removed — it makes programmatic scrollTo animate,
+     causing visual bounce when the scroll-lock guard snaps back */
+  overflow-anchor: none;
 }
 
 body {

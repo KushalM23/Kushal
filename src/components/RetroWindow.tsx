@@ -36,7 +36,7 @@ export default function RetroWindow({
             className={`retro-window ${className}`}
             initial={{ opacity: 0, scale: 0.92, y: 20 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: false, margin: "-80px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{
                 delay,
                 duration: 0.25,
@@ -53,7 +53,7 @@ export default function RetroWindow({
                     <span />
                 </div>
                 <span className={`flex-1 text-center ${isTerminal ? "text-green" : "text-fg-muted"}`}>
-                    <TypewriterText text={title} delay={delay + 0.2} speed={50} showCursor={false} />
+                    <TypewriterText text={title} delay={delay + 0.2} speed={50} showCursor={true} />
                 </span>
                 <span className="text-fg-faint w-[52px] text-right">
                     {variant === "terminal" ? "bash" : variant === "notepad" ? "txt" : "exe"}

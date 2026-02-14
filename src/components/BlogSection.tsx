@@ -4,7 +4,7 @@ import React from "react";
 import RetroWindow from "./RetroWindow";
 import { blogData, BlogPost } from "@/data/mockData";
 import { IconArrowRight } from "@tabler/icons-react";
-import TypewriterText from "./TypewriterText";
+import Link from "next/link";
 
 export default function BlogSection() {
     return (
@@ -14,13 +14,13 @@ export default function BlogSection() {
                     {/* Header */}
                     <div className="flex items-center justify-between mb-8 border-b border-dashed border-border-light pb-4">
                         <span className="tape-label">THOUGHTS_AND_LOGS</span>
-                        <span className="text-[10px] text-fg-faint font-mono">3 ENTRIES</span>
+                        <span className="text-[10px] text-fg-faint font-mono">{blogData.length} ENTRIES</span>
                     </div>
 
                     {/* Blog List */}
                     <div className="space-y-8">
                         {blogData.map((post: BlogPost, i: number) => (
-                            <div key={post.id} className="group cursor-pointer">
+                            <Link key={post.id} href={`/blog/${post.slug}`} className="group block" onClick={() => { sessionStorage.setItem("home:preserve-scroll", "1"); sessionStorage.setItem("home:scroll-pos", String(window.scrollY)); }}>
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
                                     <h3 className="text-lg font-bold text-fg typewriter-font group-hover:text-red transition-colors">
                                         <span className="text-fg-faint mr-2 text-xs">0{post.id}.</span>
@@ -32,7 +32,7 @@ export default function BlogSection() {
                                 </div>
 
                                 <p className="text-xs text-fg-muted font-mono mb-2 leading-relaxed max-w-2xl pl-6 border-l border-border-light group-hover:border-red/30 transition-colors">
-                                    <TypewriterText text={post.excerpt} delay={0.2 * i + 0.5} speed={5} />
+                                    {post.excerpt}
                                 </p>
 
                                 <div className="pl-6">
@@ -40,7 +40,7 @@ export default function BlogSection() {
                                         READ_ENTRY <IconArrowRight size={10} />
                                     </span>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

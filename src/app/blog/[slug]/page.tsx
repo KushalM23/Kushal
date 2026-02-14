@@ -1,15 +1,23 @@
 "use client";
 
-import React from "react";
-import { useParams, notFound } from "next/navigation";
-import { blogData } from "@/data/mockData";
-import Link from "next/link";
+import React, { useLayoutEffect } from "react";
+import { useParams, useRouter, notFound } from "next/navigation";
+import { blogData, profileData } from "@/data/mockData";
 import { IconArrowLeft } from "@tabler/icons-react";
-import CRTOverlay from "@/components/CRTOverlay";
 import { motion } from "framer-motion";
+import LockedHeader from "@/components/LockedHeader";
 
 export default function BlogPostPage() {
     const params = useParams();
+    const router = useRouter();
+
+    // Always start at top — prevents inheriting scroll from previous page
+    useLayoutEffect(() => {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    }, []);
     const slug = params?.slug as string;
     const post = blogData.find((p) => p.slug === slug);
 
@@ -18,14 +26,27 @@ export default function BlogPostPage() {
     }
 
     return (
-        <div className="min-h-screen bg-bg text-fg font-sans selection:bg-red selection:text-white pb-12">
-            <CRTOverlay />
+        <>
+            <LockedHeader
+                onBackClick={() => {
+                    sessionStorage.setItem("home:preserve-scroll", "1");
+                    router.back();
+                }}
+            />
 
-            <div className="max-w-3xl mx-auto pt-24 px-4">
-                <Link href="/#blog" className="inline-flex items-center gap-2 text-xs font-mono text-fg-muted hover:text-red mb-8 transition-colors">
-                    <IconArrowLeft size={14} />
+            <div className="min-h-screen bg-bg text-fg font-sans selection:bg-red selection:text-white pb-12">
+
+            <div className="max-w-5xl mx-auto pt-20 px-2 md:px-4">
+                <button
+                    onClick={() => {
+                        sessionStorage.setItem("home:preserve-scroll", "1");
+                        router.back();
+                    }}
+                    className="inline-flex items-center gap-2 text-xs font-mono text-fg-muted hover:text-red mb-8 transition-colors group"
+                >
+                    <IconArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                     <span>BACK_TO_LOGS</span>
-                </Link>
+                </button>
 
                 <motion.article
                     initial={{ opacity: 0, y: 20 }}
@@ -44,9 +65,6 @@ export default function BlogPostPage() {
                                 <span>ID: <span className="text-fg-muted">{String(post.id).padStart(4, '0')}</span></span>
                             </div>
                         </div>
-                        <div className="hidden md:block w-16 h-16 border border-border flex items-center justify-center bg-bg-alt">
-                            <span className="text-[10px] -rotate-45 text-fg-faint">FILE</span>
-                        </div>
                     </div>
 
                     {/* Content */}
@@ -61,6 +79,7 @@ export default function BlogPostPage() {
                     </div>
                 </motion.article>
             </div>
-        </div>
+            </div>
+        </>
     );
 }

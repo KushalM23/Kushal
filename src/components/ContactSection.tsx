@@ -2,7 +2,6 @@ import React from "react";
 import RetroWindow from "./RetroWindow";
 import TypewriterText from "./TypewriterText";
 import { profileData } from "@/data/mockData";
-import { IconMail, IconBrandLinkedin, IconBrandGithub } from "@tabler/icons-react";
 
 export default function ContactSection() {
     return (
@@ -14,7 +13,7 @@ export default function ContactSection() {
                 <div className="p-6 md:p-12 flex flex-col items-center justify-center bg-bg-alt/30">
 
                     <h2 className="typewriter-font text-2xl md:text-3xl text-fg font-bold mb-8 text-center">
-                        <TypewriterText text="GET IN TOUCH" delay={0.5} speed={30} />
+                        <TypewriterText text="GET IN TOUCH" delay={0.5} speed={30} showCursor={true} />
                     </h2>
 
                     <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl justify-center">

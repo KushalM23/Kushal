@@ -1,16 +1,24 @@
 "use client";
 
-import React, { use } from "react";
-import { projectsData } from "@/data/mockData";
+import React, { use, useLayoutEffect } from "react";
+import { projectsData, profileData } from "@/data/mockData";
 import RetroWindow from "@/components/RetroWindow";
-import Link from "next/link";
+import LockedHeader from "@/components/LockedHeader";
 import { useRouter } from "next/navigation";
-import { IconArrowLeft, IconBrandGithub, IconExternalLink, IconServer, IconDeviceAnalytics, IconCode } from "@tabler/icons-react";
+import { IconArrowLeft, IconBrandGithub, IconExternalLink, IconServer, IconDeviceAnalytics } from "@tabler/icons-react";
 import TypewriterText from "@/components/TypewriterText";
 
 export default function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
     const { id } = use(params);
+
+    // Always start at top — prevents inheriting scroll from previous page
+    useLayoutEffect(() => {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    }, []);
     const projectId = parseInt(id);
     const project = projectsData.find((p) => p.id === projectId);
 
@@ -28,9 +36,20 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     }
 
     return (
-        <main className="min-h-screen p-2 md:p-8 pt-24 md:pt-32 pb-20 container mx-auto max-w-4xl">
+        <>
+            <LockedHeader
+                onBackClick={() => {
+                    sessionStorage.setItem("home:preserve-scroll", "1");
+                    router.back();
+                }}
+            />
+
+            <main className="min-h-screen px-2 md:px-4 pt-20 md:pt-24 pb-20 mx-auto max-w-5xl">
             <button
-                onClick={() => router.back()}
+                onClick={() => {
+                    sessionStorage.setItem("home:preserve-scroll", "1");
+                    router.back();
+                }}
                 className="inline-flex items-center gap-2 text-xs font-mono text-fg-muted mb-6 hover:text-red transition-colors group"
             >
                 <IconArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
@@ -43,7 +62,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     <div className="border-b border-dashed border-border-light pb-6 mb-8">
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
                             <h1 className="text-3xl md:text-5xl font-bold text-fg typewriter-font">
-                                <TypewriterText text={project.title} delay={0.2} speed={30} />
+                                <TypewriterText text={project.title} delay={0.2} speed={30} showCursor={true} />
                             </h1>
                             <div className="flex gap-3">
                                 <a
@@ -71,7 +90,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     {/* Preview Image Section */}
                     <div className="mb-10">
                         <div className="w-full aspect-video bg-bg-window border border-border-light relative overflow-hidden flex items-center justify-center group">
-                            {project.previewImage && !project.previewImage.includes("preview") ? (
+                            {project.previewImage ? (
                                 <img src={project.previewImage} alt={`${project.title} Preview`} className="object-cover w-full h-full" />
                             ) : (
                                 <div className="text-center text-fg-faint font-mono p-8">
@@ -87,7 +106,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                 </div>
                             )}
                             {/* Scanline effect overlay */}
-                            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-30"></div>
+                            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] bg-size-[100%_4px,3px_100%] pointer-events-none z-10 opacity-30"></div>
                         </div>
                     </div>
 
@@ -100,7 +119,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                 <p className="mb-4">
                                     <strong className="text-fg block mb-2 text-xs uppercase tracking-widest border-b border-border-light pb-1">Overview</strong>
                                 </p>
-                                <TypewriterText text={project.longDescription || project.description} delay={0.5} speed={10} />
+                                <TypewriterText text={project.longDescription || project.description} delay={0.5} speed={10} showCursor={true} />
                             </div>
 
                             {/* Features */}
@@ -111,7 +130,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                 <ul className="grid gap-2">
                                     {project.features?.map((feature, i) => (
                                         <li key={i} className="flex items-start gap-2">
-                                            <TypewriterText text={feature} delay={0.8 + (i * 0.2)} speed={20} />
+                                            <TypewriterText text={feature} delay={0.8 + (i * 0.2)} speed={20} showCursor={true} />
                                         </li>
                                     )) || (
                                             <li className="text-fg-faint italic">// No features listed.</li>
@@ -132,6 +151,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                         text={project.architecture || "Standard MVC architecture following modular patterns."}
                                         delay={1.2}
                                         speed={10}
+                                        showCursor={true}
                                     />
                                 </div>
                             </div>
@@ -170,7 +190,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
                             <div className="opacity-50 pointer-events-none">
                                 {/* ASCII placeholder */}
-                                <div className="text-[8px] leading-[8px] font-mono text-fg-faint whitespace-pre text-center border border-border-light p-4">
+                                <div className="text-[8px] leading-2 font-mono text-fg-faint whitespace-pre text-center border border-border-light p-4">
                                     {`
   .-----.
  /       \\
@@ -184,6 +204,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     </div>
                 </div>
             </RetroWindow>
-        </main>
+            </main>
+        </>
     );
 }

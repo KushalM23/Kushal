@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { profileData } from "@/data/mockData";
 import TypewriterText from "./TypewriterText";
@@ -9,6 +9,7 @@ import { soundManager } from "@/utils/sounds";
 /* ──────────────────────────────────────────────
    RETRO BOOT SCREEN → SHRINKING HEADER
    
+   - Boot overlay: "Press any key" (warms AudioContext)
    - Name types out letter by letter (typewriter)
    - Below: small cassette rewind animation
    - Below: "Scroll to begin" text
@@ -17,6 +18,8 @@ import { soundManager } from "@/utils/sounds";
    ────────────────────────────────────────────── */
 
 const HEADER_H = 54;
+const PRESERVE_HOME_SCROLL_KEY = "home:preserve-scroll";
+const HOME_SCROLL_POS_KEY = "home:scroll-pos";
 
 function CassetteRewind() {
     return (
@@ -38,7 +41,7 @@ function CassetteRewind() {
                     ))}
                 </svg>
             </div>
-            <div className="relative w-20 h-[2px] bg-border overflow-hidden">
+            <div className="relative w-20 h-0.5 bg-border overflow-hidden">
                 <motion.div
                     className="absolute inset-0"
                     style={{
@@ -76,31 +79,78 @@ function CassetteRewind() {
 export default function HeroSection() {
     const [vh, setVh] = useState(800);
     const [isLocked, setIsLocked] = useState(false);
+    const [hasBooted, setHasBooted] = useState(false);
+    const [pageProgress, setPageProgress] = useState(0);
+    const justLockedRef = useRef(false);
 
     useEffect(() => {
         setVh(window.innerHeight);
         const onResize = () => setVh(window.innerHeight);
         window.addEventListener("resize", onResize);
 
-        // Always start at top on fresh mount/reload
+        // Prevent browser from auto-restoring scroll position
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
-        window.scrollTo(0, 0);
 
-        // Cassette Rewind Sound on mount (after a delay to let things settle)
-        const timer = setTimeout(() => {
-            soundManager?.playCassetteWhir(1.5, true);
-        }, 1500);
+        // Check if returning from a project/blog page via back-nav
+        const shouldPreserveScroll = sessionStorage.getItem(PRESERVE_HOME_SCROLL_KEY) === "1";
+        sessionStorage.removeItem(PRESERVE_HOME_SCROLL_KEY);
+
+        if (shouldPreserveScroll) {
+            // Skip intro & boot screen — go straight to locked header state
+            setHasBooted(true);
+            setIsLocked(true);
+            // Restore saved scroll position
+            const savedPos = sessionStorage.getItem(HOME_SCROLL_POS_KEY);
+            sessionStorage.removeItem(HOME_SCROLL_POS_KEY);
+            if (savedPos) {
+                const pos = parseInt(savedPos, 10);
+                // Use rAF to ensure DOM has settled before restoring scroll
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, pos);
+                });
+            } else {
+                window.scrollTo(0, 0);
+            }
+        } else {
+            // Fresh load or reload: always start at top
+            window.scrollTo(0, 0);
+        }
 
         return () => {
             window.removeEventListener("resize", onResize);
-            clearTimeout(timer);
         };
     }, []);
 
+    // Boot screen — requires user gesture to warm up AudioContext
+    useEffect(() => {
+        if (hasBooted) {
+            document.body.style.overflow = '';
+            return;
+        }
+
+        document.body.style.overflow = 'hidden';
+
+        const handleBoot = () => {
+            soundManager?.warmUp();
+            setHasBooted(true);
+        };
+
+        window.addEventListener('keydown', handleBoot);
+        window.addEventListener('click', handleBoot);
+        window.addEventListener('touchstart', handleBoot);
+
+        return () => {
+            window.removeEventListener('keydown', handleBoot);
+            window.removeEventListener('click', handleBoot);
+            window.removeEventListener('touchstart', handleBoot);
+            document.body.style.overflow = '';
+        };
+    }, [hasBooted]);
+
     const scrollEnd = vh * 0.5;
-    const { scrollY, scrollYProgress } = useScroll();
+    const { scrollY } = useScroll();
 
     // Transforms
     const sectionHeight = useTransform(scrollY, [0, scrollEnd], [vh, HEADER_H], { clamp: true });
@@ -108,34 +158,58 @@ export default function HeroSection() {
     const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [64, 24], { clamp: true });
     const extraContentOpacity = useTransform(scrollY, [0, scrollEnd * 0.4], [1, 0], { clamp: true });
 
-    // One-Way Scroll Logic
+    // One-Way Scroll Logic — lock when scrolled past intro
     useMotionValueEvent(scrollY, "change", (latest) => {
         if (!isLocked && latest >= scrollEnd) {
-            soundManager?.playToggle(false); // Mechanical stop/lock sound
+            justLockedRef.current = true;
             setIsLocked(true);
         }
     });
 
+    // When locking, spacer shrinks — adjust scroll to keep content in place
+    useLayoutEffect(() => {
+        if (justLockedRef.current) {
+            justLockedRef.current = false;
+            const adjusted = Math.max(0, window.scrollY - scrollEnd);
+            window.scrollTo(0, adjusted);
+        }
+    }, [isLocked, scrollEnd]);
+
+    // Page scroll progress (only after header locks)
     useEffect(() => {
         if (!isLocked) return;
 
         const handleScroll = () => {
-            if (window.scrollY < scrollEnd - 2) { // Tiny buffer for subpixel issues
-                window.scrollTo({
-                    top: scrollEnd,
-                    behavior: "auto"
-                });
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            if (maxScroll > 0) {
+                setPageProgress(Math.min(1, Math.max(0, window.scrollY / maxScroll)));
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [isLocked, scrollEnd]);
+    }, [isLocked]);
 
     return (
         <>
+            {/* Boot overlay — press any key to begin (warms AudioContext) */}
+            {!hasBooted && (
+                <div className="fixed inset-0 z-200 bg-bg flex flex-col items-center justify-center gap-6 select-none">
+                    <div className="typewriter-font text-3xl text-fg font-bold tracking-wide">
+                        KUSHAL_OS
+                    </div>
+                    <div className="text-[10px] text-fg-faint tracking-[0.2em] uppercase">
+                        v1.0 — SYSTEM READY
+                    </div>
+                    <div className="mt-8 text-xs text-fg-muted tracking-[0.15em] uppercase animate-cursor-blink">
+                        [ Press any key to begin ]
+                    </div>
+                </div>
+            )}
+
             <motion.div
-                className="fixed top-0 left-0 right-0 z-[100] border-b border-border bg-bg"
+                className="fixed top-0 left-0 right-0 z-100 border-b border-border bg-bg"
                 style={{
                     height: isLocked ? HEADER_H : sectionHeight,
                     willChange: "height",
@@ -149,12 +223,25 @@ export default function HeroSection() {
                             fontSize: isLocked ? 24 : nameFontSize,
                         }}
                     >
-                        <TypewriterText text={profileData.name} delay={isLocked ? 0 : 0.3} speed={50} />
+                        {hasBooted ? (
+                            isLocked ? (
+                                <>{profileData.name}<span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span></>
+                            ) : (
+                                <TypewriterText
+                                    key="hero-name"
+                                    text={profileData.name}
+                                    delay={0.3}
+                                    speed={50}
+                                    mute={false}
+                                    showCursor={true}
+                                />
+                            )
+                        ) : null}
                     </motion.h1>
                 </div>
 
                 {/* Extra content — positioned below name, fades out */}
-                {!isLocked && (
+                {!isLocked && hasBooted && (
                     <motion.div
                         className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-6"
                         style={{ opacity: extraContentOpacity }}
@@ -178,19 +265,17 @@ export default function HeroSection() {
                     </motion.div>
                 )}
 
-                {/* Scroll Progress Bar - attached to bottom of header */}
-                <motion.div
-                    className="absolute bottom-0 left-0 h-[2px] bg-red z-50"
-                    style={{
-                        scaleX: isLocked ? 1 : scrollYProgress,
-                        transformOrigin: "0%",
-                        width: "100%"
-                    }}
-                />
+                {/* Scroll Progress Bar — only after header locks, tracks page content scroll */}
+                {isLocked && (
+                    <div
+                        className="absolute bottom-0 left-0 h-0.5 bg-red z-50"
+                        style={{ width: `${pageProgress * 100}%`, transition: 'width 100ms linear' }}
+                    />
+                )}
             </motion.div>
 
-            {/* Spacer - pushes content down so it reveals exactly under the header */}
-            <div style={{ height: `${scrollEnd + HEADER_H}px` }} />
+            {/* Spacer — shrinks to header height when locked (prevents upward scroll overshoot) */}
+            <div style={{ height: isLocked ? `${HEADER_H}px` : `${scrollEnd + HEADER_H}px`, overflowAnchor: 'none' as const }} />
         </>
     );
 }
