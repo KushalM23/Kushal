@@ -52,7 +52,7 @@ export default function RetroWindow({
                     <span />
                     <span />
                 </div>
-                <span className={"flex-1 text-lg text-center text-fg-muted"}>
+                <span className={"flex-1 text-md text-center text-fg-muted"}>
                     <TypewriterText text={title} delay={delay + 0.2} speed={50} showCursor={true} />
                 </span>
                 <span className="text-fg-faint w-13 text-right">

@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" className={`${aleo.variable}`}>
       <body className="antialiased">
         <ButtonClickSound />
-        {children}
+          {children}
       </body>
     </html>
   );

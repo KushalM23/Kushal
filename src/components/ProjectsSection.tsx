@@ -105,7 +105,7 @@ function ProjectFolder({
                     >
                         <div className="px-4 md:px-16 pb-2 border-t border-dashed border-border-strong pt-4 mx-4">
                             <div className="typewriter-font text-md leading-relaxed mb-4 text-fg-muted">
-                                <TypewriterText text={project.description} speed={15} delay={0.1} showCursor={true} />
+                                <TypewriterText text={project.description} speed={25} delay={0.1} showCursor={true} />
                             </div>
 
                             {/* Tech stack */}

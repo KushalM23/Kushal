@@ -8,6 +8,7 @@ import TypewriterText  from "@/components/TypewriterText"
 import Link from "next/link";
 
 export default function BlogSection() {
+
     return (
         <section id="blog" className="px-1 md:px-2 mb-6">
             <RetroWindow title="BLOG.txt" delay={0.3}>

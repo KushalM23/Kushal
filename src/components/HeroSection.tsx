@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-mot
 import { profileData } from "@/data/mockData";
 import TypewriterText from "./TypewriterText";
 import { soundManager } from "@/utils/sounds";
+import CassetteBootAnimation from "./CassetteBootAnimation";
 
 /* ──────────────────────────────────────────────
    RETRO BOOT SCREEN → SHRINKING HEADER
@@ -123,7 +124,7 @@ export default function HeroSection() {
         };
     }, []);
 
-    // Boot screen — requires user gesture to warm up AudioContext
+    // Boot screen — body overflow locked while cassette animation plays
     useEffect(() => {
         if (hasBooted) {
             document.body.style.overflow = '';
@@ -132,19 +133,7 @@ export default function HeroSection() {
 
         document.body.style.overflow = 'hidden';
 
-        const handleBoot = () => {
-            soundManager?.warmUp();
-            setHasBooted(true);
-        };
-
-        window.addEventListener('keydown', handleBoot);
-        window.addEventListener('click', handleBoot);
-        window.addEventListener('touchstart', handleBoot);
-
         return () => {
-            window.removeEventListener('keydown', handleBoot);
-            window.removeEventListener('click', handleBoot);
-            window.removeEventListener('touchstart', handleBoot);
             document.body.style.overflow = '';
         };
     }, [hasBooted]);
@@ -155,7 +144,7 @@ export default function HeroSection() {
     // Transforms
     const sectionHeight = useTransform(scrollY, [0, scrollEnd], [vh, HEADER_H], { clamp: true });
     // Font size stops shrinking at 60% scroll, stays at 24px (sticky)
-    const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [64, 24], { clamp: true });
+    const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [64, 28], { clamp: true });
     const extraContentOpacity = useTransform(scrollY, [0, scrollEnd * 0.4], [1, 0], { clamp: true });
 
     // One-Way Scroll Logic — lock when scrolled past intro
@@ -193,20 +182,14 @@ export default function HeroSection() {
 
     return (
         <>
-            {/* Boot overlay — press any key to begin (warms AudioContext) */}
+            {/* Boot overlay — cassette insertion animation */}
             {!hasBooted && (
-                <div className="fixed inset-0 z-200 bg-bg flex flex-col items-center justify-center gap-6 select-none">
-                    <div className="typewriter-font text-3xl text-fg font-bold tracking-wide">
-                        KUSHAL_OS
-                    </div>
-                    <div className="text-[10px] text-fg-faint tracking-[0.2em] uppercase">
-                        v1.0 — SYSTEM READY
-                    </div>
-                    <div className="mt-8 text-xs text-fg-muted tracking-[0.15em] uppercase animate-cursor-blink">
-                        [ Press any key to begin ]
-                    </div>
-                </div>
+                <CassetteBootAnimation onComplete={() => {
+                    soundManager?.warmUp();
+                    setHasBooted(true);
+                }} />
             )}
+
 
             <motion.div
                 className="fixed top-0 left-0 right-0 z-100 border-b border-border bg-bg"
@@ -215,12 +198,21 @@ export default function HeroSection() {
                     willChange: "height",
                 }}
             >
+                
+            {/* Scanlines */}
+                    <div
+                        className="absolute inset-0 pointer-events-none z-10"
+                        style={{
+                            background:
+                                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)",
+                        }}
+                    />
                 {/* Name container — always centered and visible */}
                 <div className="h-full flex items-center justify-center px-4">
                     <motion.h1
                         className="typewriter-font text-fg font-bold leading-none whitespace-nowrap"
                         style={{
-                            fontSize: isLocked ? 24 : nameFontSize,
+                            fontSize: isLocked ? 28 : nameFontSize,
                         }}
                     >
                         {hasBooted ? (

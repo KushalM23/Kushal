@@ -44,7 +44,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 }}
             />
 
-            <main className="min-h-screen px-2 md:px-4 pt-20 md:pt-24 pb-20 mx-auto max-w-5xl">
+            <main className="min-h-screen px-2 md:px-4 pt-24 md:pt-24 pb-20 mx-auto max-w-5xl">
             <button
                 onClick={() => {
                     sessionStorage.setItem("home:preserve-scroll", "1");

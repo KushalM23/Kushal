@@ -46,11 +46,20 @@ export default function LockedHeader({ onBackClick }: LockedHeaderProps) {
                 willChange: "height",
             }}
         >
+            
+            {/* Scanlines */}
+                    <div
+                        className="absolute inset-0 pointer-events-none z-10"
+                        style={{
+                            background:
+                                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)",
+                        }}
+                    />
             {/* Name container — centered and visible */}
             <div className="h-full flex items-center justify-center px-4">
                 <button
                     onClick={handleClick}
-                    className="typewriter-font text-fg font-bold text-2xl leading-none hover:text-red transition-colors cursor-pointer"
+                    className="typewriter-font text-fg font-bold text-[28px] leading-none hover:text-red transition-colors cursor-pointer"
                 >
                     {profileData.name}
                     <span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span>

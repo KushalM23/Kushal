@@ -36,7 +36,7 @@ export default function BlogPostPage() {
 
             <div className="min-h-screen bg-bg text-fg font-sans selection:bg-red selection:text-white pb-12">
 
-            <div className="max-w-5xl mx-auto pt-20 px-2 md:px-4">
+            <div className="max-w-5xl mx-auto pt-24 px-2 md:px-4">
                 <button
                     onClick={() => {
                         sessionStorage.setItem("home:preserve-scroll", "1");
