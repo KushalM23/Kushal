@@ -137,6 +137,67 @@ button,
   }
 }
 
+/* Retro fade-in animations matching CRT aesthetic */
+@keyframes fade-in-scan {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flicker-in {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.7;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0.8;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 /* ──────── UTILITY CLASSES ──────── */
 .animate-cursor-blink {
   animation: cursor-blink 1s step-end infinite;
@@ -152,6 +213,20 @@ button,
 
 .animate-crt-flicker {
   animation: crt-flicker 10s linear infinite;
+}
+
+.animate-fade-in-scan {
+  animation: fade-in-scan 1.2s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+}
+
+/* Staggered fade-in for list items — each child gets an animationDelay via style */
+.stagger-fade-in {
+  opacity: 0;
+  animation: fade-in-up 0.5s ease-out forwards;
 }
 
 /* ──────── TYPEWRITER TEXT ──────── */

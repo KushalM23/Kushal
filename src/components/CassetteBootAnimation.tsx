@@ -259,7 +259,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
                     {phase === "waiting" && (
                         <div className="mt-10 z-1">
                             <TypewriterText
-                                text="drag tape into the deck"
+                                text="insert tape into the deck"
                                 className="text-[10px] font-mono text-fg-faint tracking-[0.15em] uppercase"
                                 speed={40}
                                 delay={0.5}
