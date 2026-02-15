@@ -12,15 +12,15 @@ export default function BlogSection() {
     return (
         <section id="blog" className="px-1 md:px-2 mb-6">
             <RetroWindow title="BLOG.txt" delay={0.3}>
-                <div className="p-6 md:p-8">
+                <div className="p-4 md:p-8">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8 border-b border-dashed border-border-light pb-4">
+                    <div className="flex items-center justify-between mb-6 md:mb-8 border-b border-dashed border-border-light pb-3 md:pb-4">
                         <span className="tape-label">THOUGHTS_AND_LOGS</span>
                         <span className="text-[10px] text-fg-faint font-mono">{blogData.length} ENTRIES</span>
                     </div>
 
                     {/* Blog List */}
-                    <div className="space-y-8">
+                    <div className="space-y-6 md:space-y-8">
                         {blogData.map((post: BlogPost, i: number) => (
                             <Link key={post.id} href={`/blog/${post.slug}`} className="group block" onClick={() => { sessionStorage.setItem("home:preserve-scroll", "1"); sessionStorage.setItem("home:scroll-pos", String(window.scrollY)); }}>
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-1">

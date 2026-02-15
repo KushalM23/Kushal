@@ -138,13 +138,15 @@ export default function HeroSection() {
         };
     }, [hasBooted]);
 
-    const scrollEnd = vh * 0.5;
+    // Use shorter scroll distance on mobile for snappier transition
+    const isMobile = vh > 0 && typeof window !== 'undefined' && window.innerWidth < 768;
+    const scrollEnd = vh * (isMobile ? 0.35 : 0.5);
     const { scrollY } = useScroll();
 
-    // Transforms
+    // Transforms — smaller initial font on mobile (40px vs 64px)
     const sectionHeight = useTransform(scrollY, [0, scrollEnd], [vh, HEADER_H], { clamp: true });
-    // Font size stops shrinking at 60% scroll, stays at 24px (sticky)
-    const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [64, 28], { clamp: true });
+    const initialFontSize = isMobile ? 40 : 64;
+    const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [initialFontSize, 28], { clamp: true });
     const extraContentOpacity = useTransform(scrollY, [0, scrollEnd * 0.4], [1, 0], { clamp: true });
 
     // One-Way Scroll Logic — lock when scrolled past intro
@@ -235,7 +237,7 @@ export default function HeroSection() {
                 {/* Extra content — positioned below name, fades out */}
                 {!isLocked && hasBooted && (
                     <motion.div
-                        className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-6"
+                        className="absolute bottom-8 md:bottom-16 left-0 right-0 flex flex-col items-center gap-4 md:gap-6 px-4"
                         style={{ opacity: extraContentOpacity }}
                     >
                         <motion.div

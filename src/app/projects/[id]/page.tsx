@@ -62,7 +62,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                 }}
             />
 
-            <main className="min-h-screen px-2 md:px-4 pt-24 md:pt-24 pb-20 mx-auto max-w-5xl">
+            <main className="min-h-screen px-3 md:px-4 pt-20 md:pt-24 pb-16 md:pb-20 mx-auto max-w-5xl">
             <button
                 onClick={() => {
                     sessionStorage.setItem("home:preserve-scroll", "1");
@@ -75,11 +75,11 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             </button>
 
             <RetroWindow title={`${project.title}.exe`} delay={0.1}>
-                <div className="p-6 md:p-10">
+                <div className="p-4 md:p-10">
                     {/* Header */}
-                    <div className="border-b border-dashed border-border-light pb-6 mb-8">
+                    <div className="border-b border-dashed border-border-light pb-4 md:pb-6 mb-6 md:mb-8">
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
-                            <h1 className="text-3xl md:text-5xl font-bold text-fg typewriter-font">
+                            <h1 className="text-2xl md:text-5xl font-bold text-fg typewriter-font">
                                 <TypewriterText text={project.title} delay={0.2} speed={30} showCursor={true} />
                             </h1>
                             <div className="flex gap-3 animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
@@ -106,7 +106,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     </div>
 
                     {/* Preview Image Section */}
-                    <ScrollAnimatedSection className="mb-10" animationType="slide" delay={0.15}>
+                    <ScrollAnimatedSection className="mb-6 md:mb-10" animationType="slide" delay={0.15}>
                         <div className="w-full aspect-video bg-bg-window border border-border-light relative overflow-hidden flex items-center justify-center group">
                             {project.previewImage ? (
                                 <img src={project.previewImage} alt={`${project.title} Preview`} className="object-cover w-full h-full" />
@@ -129,11 +129,11 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     </ScrollAnimatedSection>
 
                     {/* Content Grid */}
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-3 gap-6 md:gap-8">
                         <div className="md:col-span-2 space-y-8">
 
                             {/* Description Box */}
-                            <ScrollAnimatedSection className="bg-bg-alt border border-border p-6 font-mono text-sm leading-relaxed text-fg-muted" animationType="slide">
+                            <ScrollAnimatedSection className="bg-bg-alt border border-border p-4 md:p-6 font-mono text-sm leading-relaxed text-fg-muted" animationType="slide">
                                 <div className="text-fg block mb-3 text-xs uppercase tracking-widest border-b border-border-light pb-2">
                                     <TypewriterText className="font-bold text-sm" text="Overview" delay={0.5} speed={10} showCursor={true} />
                                 </div>
@@ -166,7 +166,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                     <TypewriterText className="font-bold text-sm" text="System_Architecture" delay={0.5} speed={10} showCursor={true} />
                                 </div>
                                 <DelayedContent delay={0.8}>
-                                    <div className="bg-bg-window border border-border p-5 rounded text-xs md:text-sm">
+                                    <div className="bg-bg-window border border-border p-4 md:p-5 rounded text-xs md:text-sm">
                                         <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-fg-faint mb-3 border-b border-border-light pb-2">
                                             <IconServer size={14} /> Architecture_Diagram_v1
                                         </div>
@@ -180,7 +180,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
                         {/* Metadata / Sidebar */}
                         <div className="space-y-6">
-                            <ScrollAnimatedSection className="border border-border p-5 bg-bg-window top-24 rounded" animationType="slide" delay={0.1}>
+                            <ScrollAnimatedSection className="border border-border p-4 md:p-5 bg-bg-window top-24 rounded" animationType="slide" delay={0.1}>
                                 <h3 className="text-xs font-bold text-fg uppercase tracking-widest mb-4 border-b border-border-light pb-2">Project_Stats</h3>
                                 <ul className="space-y-3 text-xs font-mono text-fg-muted">
                                     <li className="flex justify-between">

@@ -50,14 +50,14 @@ function CassetteBody() {
 
             {/* Tape window */}
             <div className="border border-border bg-bg rounded-sm p-2 mx-auto">
-                <div className="flex items-center justify-center gap-5 md:gap-6">
-                    <Reel size={34} />
+                    <div className="flex items-center justify-center gap-3 md:gap-6">
+                    <Reel size={28} />
                     <div className="flex flex-col items-center gap-0.5">
-                        <div className="w-8 h-px bg-border-light" />
-                        <div className="w-10 h-px bg-border" />
-                        <div className="w-8 h-px bg-border-light" />
+                        <div className="w-6 md:w-8 h-px bg-border-light" />
+                        <div className="w-8 md:w-10 h-px bg-border" />
+                        <div className="w-6 md:w-8 h-px bg-border-light" />
                     </div>
-                    <Reel size={34} />
+                    <Reel size={28} />
                 </div>
             </div>
 
@@ -171,7 +171,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
 
                         {/* ─── DECK ─── (z-10 so cassette slides behind it) */}
                         <motion.div
-                            className="w-72 md:w-88 relative z-10"
+                            className="w-60 md:w-88 relative z-10"
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.1 }}
@@ -243,7 +243,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
                         >
                             <motion.div
                                 ref={cassetteRef}
-                                className="w-64 md:w-72 cursor-pointer"
+                                className="w-52 md:w-72 cursor-pointer"
                                 style={{ touchAction: "none", x: dragX, y: dragY }}
                                 drag={phase === "waiting"}
                                 dragMomentum={false}
@@ -257,7 +257,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
 
                     {/* Prompt */}
                     {phase === "waiting" && (
-                        <div className="mt-10 z-1">
+                        <div className="mt-6 md:mt-10 z-1">
                             <TypewriterText
                                 text="insert tape into the deck"
                                 className="text-[10px] font-mono text-fg-faint tracking-[0.15em] uppercase"

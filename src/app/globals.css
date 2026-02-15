@@ -337,6 +337,13 @@ button,
   background: var(--color-fg-faint);
 }
 
+/* Thinner scrollbar on mobile */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
 /* ──────── SELECTION ──────── */
 ::selection {
   background: var(--color-red);
@@ -412,4 +419,64 @@ button,
   background-size: 14px 8px;
   background-repeat: repeat-x;
   height: 8px;
+}
+
+/* ──────── MOBILE / TOUCH OPTIMIZATIONS ──────── */
+
+/* Remove custom SVG cursors on touch devices — they're invisible & waste parsing time */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .retro-btn {
+    cursor: pointer;
+  }
+}
+
+/* Prevent iOS text-size inflation in landscape */
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Slightly larger base font for readability on small screens */
+  body {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* Allow tape labels to shrink gracefully */
+  .tape-label {
+    font-size: 8px;
+    padding: 2px 8px;
+    letter-spacing: 0.15em;
+  }
+
+  /* Compact retro titlebar on mobile */
+  .retro-titlebar {
+    height: 28px;
+    padding: 0 8px;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .retro-titlebar-btns span {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Slightly smaller retro buttons on mobile */
+  .retro-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
 }

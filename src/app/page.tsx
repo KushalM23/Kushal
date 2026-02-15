@@ -24,7 +24,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Desktop — content windows */}
-      <main className="relative max-w-7xl mx-auto pb-8 pt-12 px-2 md:px-4">
+      <main className="relative max-w-7xl mx-auto pb-8 pt-8 md:pt-12 px-1 md:px-4">
         <AboutSection />
         <ProjectsSection />
         <ExperienceSection />

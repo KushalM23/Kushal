@@ -28,7 +28,7 @@ export default function TypewriterText({
     const [displayedText, setDisplayedText] = useState("");
     const [isComplete, setIsComplete] = useState(false);
     const ref = React.useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-50px" });
+    const isInView = useInView(ref, { once: true, margin: "-50px 0px" });
 
     // Auto-adjust speed for long text to avoid painfully slow rendering
     const effectiveSpeed = text.length > 100 ? Math.min(speed, 8) : text.length > 50 ? Math.min(speed, 15) : speed;

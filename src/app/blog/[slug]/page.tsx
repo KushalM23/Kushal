@@ -34,9 +34,9 @@ export default function BlogPostPage() {
                 }}
             />
 
-            <div className="min-h-screen bg-bg text-fg font-sans selection:bg-red selection:text-white pb-12">
+            <div className="min-h-screen bg-bg text-fg font-mono selection:bg-red selection:text-white pb-12">
 
-            <div className="max-w-5xl mx-auto pt-24 px-2 md:px-4">
+            <div className="max-w-5xl mx-auto pt-20 md:pt-24 px-3 md:px-4">
                 <button
                     onClick={() => {
                         sessionStorage.setItem("home:preserve-scroll", "1");
@@ -52,10 +52,10 @@ export default function BlogPostPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="border border-border bg-bg-window p-8 md:p-12 relative overflow-hidden"
+                    className="border border-border bg-bg-window p-5 md:p-12 relative overflow-hidden"
                 >
                     {/* Header info */}
-                    <div className="flex justify-between items-start border-b border-dashed border-border-light pb-6 mb-8">
+                    <div className="flex flex-col md:flex-row justify-between items-start border-b border-dashed border-border-light pb-4 md:pb-6 mb-6 md:mb-8 gap-2">
                         <div>
                             <h1 className="text-2xl md:text-3xl font-bold typewriter-font mb-2 text-red">
                                 {post.title}
@@ -68,12 +68,12 @@ export default function BlogPostPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="prose prose-invert prose-sm md:prose-base max-w-none font-mono text-fg-muted leading-relaxed whitespace-pre-line">
+                    <div className="prose prose-sm md:prose-base max-w-none font-mono text-fg-muted leading-relaxed whitespace-pre-line">
                         {post.content}
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-12 pt-6 border-t border-border flex justify-between items-center text-[10px] font-mono text-fg-faint">
+                    <div className="mt-8 md:mt-12 pt-4 md:pt-6 border-t border-border flex justify-between items-center text-[10px] font-mono text-fg-faint">
                         <span>END_OF_FILE</span>
                         <span>{slug.toUpperCase()}.TXT</span>
                     </div>

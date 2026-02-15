@@ -34,7 +34,7 @@ export default function ExperienceSection() {
                 </div>
 
                 {/* Typewriter paper body */}
-                <div className="paper-insert paper-lines p-6 pl-14 md:p-8 md:pl-16">
+                <div className="paper-insert paper-lines p-4 pl-4 md:p-8 md:pl-16">
                     {experienceData.map((exp, i) => (
                         <motion.div
                             key={exp.id}

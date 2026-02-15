@@ -135,20 +135,20 @@ export default function CassetteWidget() {
     };
 
     return (
-        <div className="cassette-body p-5 md:p-6 transition-transform duration-300 hover:scale-[1.01] select-none">
+        <div className="cassette-body p-3 md:p-6 transition-transform duration-300 hover:scale-[1.01] select-none">
             {/* Cassette label */}
-            <div className="text-center mb-4 flex justify-between items-end px-2">
+            <div className="text-center mb-3 md:mb-4 flex justify-between items-end px-1 md:px-2">
                 <span className="text-[10px] font-bold text-fg-faint">A</span>
                 <span className="tape-label">PORTFOLIO MIX</span>
                 <span className="text-[10px] font-bold text-fg-faint">60</span>
             </div>
 
             {/* Tape window — the transparent part of a cassette */}
-            <div className="border border-border-strong bg-bg mx-auto max-w-xs rounded p-3 relative overflow-hidden">
-                <div className="flex items-center justify-center gap-8">
+            <div className="border border-border-strong bg-bg mx-auto max-w-60 md:max-w-xs rounded p-2 md:p-3 relative overflow-hidden">
+                <div className="flex items-center justify-center gap-4 md:gap-8">
                     {/* Left reel - Supply */}
                     <div
-                        className="w-16 h-16 cursor-pointer active:scale-95"
+                        className="w-12 h-12 md:w-16 md:h-16 cursor-pointer active:scale-95"
                         style={{ transform: `rotate(${reelRotation}deg)` }}
                         onClick={handleReelClick}
                     >
@@ -184,7 +184,7 @@ export default function CassetteWidget() {
 
                     {/* Right reel - Takeup */}
                     <div
-                        className="w-16 h-16 cursor-pointer active:scale-95"
+                        className="w-12 h-12 md:w-16 md:h-16 cursor-pointer active:scale-95"
                         style={{ transform: `rotate(${reelRotation}deg)` }}
                         onClick={handleReelClick}
                     >
@@ -210,7 +210,7 @@ export default function CassetteWidget() {
             </div>
 
             {/* Transport controls — physical buttons */}
-            <div className="flex items-center justify-center gap-2 mt-5">
+            <div className="flex items-center justify-center gap-1.5 md:gap-2 mt-3 md:mt-5">
                 <button
                     onClick={() => {
                         if (tapeProgress <= TAPE_MIN) return; // Already at start
@@ -271,7 +271,7 @@ export default function CassetteWidget() {
             </div>
 
             {/* Status LED/Text */}
-            <div className="mt-4 text-center">
+            <div className="mt-3 md:mt-4 text-center">
                 <p className="text-[10px] font-mono text-fg-faint uppercase tracking-wider">
                     {status === "idle"
                         ? (tapeProgress >= TAPE_MAX ? "END OF TAPE" : "READY")
