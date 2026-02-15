@@ -137,6 +137,67 @@ button,
   }
 }
 
+/* Retro fade-in animations matching CRT aesthetic */
+@keyframes fade-in-scan {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flicker-in {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.7;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0.8;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 /* ──────── UTILITY CLASSES ──────── */
 .animate-cursor-blink {
   animation: cursor-blink 1s step-end infinite;
@@ -152,6 +213,20 @@ button,
 
 .animate-crt-flicker {
   animation: crt-flicker 10s linear infinite;
+}
+
+.animate-fade-in-scan {
+  animation: fade-in-scan 1.2s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+}
+
+/* Staggered fade-in for list items — each child gets an animationDelay via style */
+.stagger-fade-in {
+  opacity: 0;
+  animation: fade-in-up 0.5s ease-out forwards;
 }
 
 /* ──────── TYPEWRITER TEXT ──────── */
@@ -262,6 +337,13 @@ button,
   background: var(--color-fg-faint);
 }
 
+/* Thinner scrollbar on mobile */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
 /* ──────── SELECTION ──────── */
 ::selection {
   background: var(--color-red);
@@ -337,4 +419,64 @@ button,
   background-size: 14px 8px;
   background-repeat: repeat-x;
   height: 8px;
+}
+
+/* ──────── MOBILE / TOUCH OPTIMIZATIONS ──────── */
+
+/* Remove custom SVG cursors on touch devices — they're invisible & waste parsing time */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .retro-btn {
+    cursor: pointer;
+  }
+}
+
+/* Prevent iOS text-size inflation in landscape */
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Slightly larger base font for readability on small screens */
+  body {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* Allow tape labels to shrink gracefully */
+  .tape-label {
+    font-size: 8px;
+    padding: 2px 8px;
+    letter-spacing: 0.15em;
+  }
+
+  /* Compact retro titlebar on mobile */
+  .retro-titlebar {
+    height: 28px;
+    padding: 0 8px;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .retro-titlebar-btns span {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Slightly smaller retro buttons on mobile */
+  .retro-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
 }

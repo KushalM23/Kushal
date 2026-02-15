@@ -18,7 +18,7 @@ import { IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
 function FolderIcon({ open }: { open: boolean }) {
     return (
         <div className=" bg-bg-window p-2 flex items-center justify-center hover:border-red transition-colors">
-            <svg viewBox="0 0 24 24" className="w-8 h-8 transition-all duration-300 ease-out shrink-0">
+            <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-8 md:h-8 transition-all duration-300 ease-out shrink-0">
                 {open ? (
                     <g>
                         {/* Open Folder */}
@@ -56,7 +56,6 @@ function ProjectFolder({
         <motion.div
             layout
             className={`border border-border bg-bg-window hover:border-border-strong transition-colors cursor-pointer overflow-hidden ${isActive ? 'pb-4' : ''}`}
-            onClick={onClick}
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -68,14 +67,14 @@ function ProjectFolder({
             }}
         >
             {/* Header/Tab */}
-            <div className="p-4 flex items-center gap-4">
+            <div onClick={onClick} className="p-3 md:p-4 flex items-center gap-3 md:gap-4">
                 <div className="folder-icon">
                     <FolderIcon open={isActive} />
                 </div>
 
                 <div className="flex-1 min-w-0 flex items-center justify-between">
                     <div>
-                        <h3 className={`font-bold text-fg text-lg typewriter-font truncate transition-all ${isActive && ' text-red'}`}>
+                        <h3 className={`font-bold text-fg text-base md:text-lg typewriter-font truncate transition-all ${isActive && ' text-red'}`}>
                             {project.title}
                         </h3>
                         <p className="text-[10px] text-fg-faint tracking-wider mt-0.5">
@@ -103,7 +102,7 @@ function ProjectFolder({
                         }}
                         style={{ willChange: "height, opacity", overflow: "hidden" }}
                     >
-                        <div className="px-4 md:px-16 pb-2 border-t border-dashed border-border-strong pt-4 mx-4">
+                        <div className="px-2 md:px-16 pb-2 border-t border-dashed border-border-strong pt-3 md:pt-4 mx-2 md:mx-4">
                             <div className="typewriter-font text-md leading-relaxed mb-4 text-fg-muted">
                                 <TypewriterText text={project.description} speed={25} delay={0.1} showCursor={true} />
                             </div>
@@ -174,7 +173,7 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Vertical Stack Container */}
-                <div className="p-4 flex flex-col gap-3">
+                <div className="p-3 md:p-4 flex flex-col gap-3">
                     {projectsData.map((project, i) => (
                         <ProjectFolder
                             key={project.id}

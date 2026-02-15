@@ -21,12 +21,12 @@ export default function AboutSection() {
     return (
         <section id="about" className="px-1 md:px-2 mb-6">
             <RetroWindow title="ABOUT.exe" delay={0.1}>
-                <div className="p-6 md:p-8">
-                    <div className="flex flex-col md:flex-row gap-8">
+                <div className="p-4 md:p-8">
+                    <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                         {/* Profile photo — retro viewfinder */}
                         <div className="shrink-0 flex flex-col items-center gap-3">
                             <div className="relative">
-                                <div className="w-36 h-36 md:w-44 md:h-44 border-2 border-border-strong overflow-hidden bg-bg">
+                                <div className="w-32 h-32 md:w-44 md:h-44 border-2 border-border-strong overflow-hidden bg-bg">
                                     <Image
                                         src="/profile pic wo bg.png"
                                         alt="Kushal"
@@ -69,7 +69,7 @@ export default function AboutSection() {
                             </motion.div>
 
                             {/* Typewriter paper with bio */}
-                            <div className="paper-insert paper-lines p-5 pl-14 mb-6">
+                            <div className="paper-insert paper-lines p-3 pl-4 md:p-5 md:pl-14 mb-4 md:mb-6">
                                 <div className="text-md leading-7 text-fg">
                                     <TypewriterText
                                         text={profileData.bio}
@@ -80,7 +80,7 @@ export default function AboutSection() {
                                     />
                                 </div>
                             </div>
-                            <div className="mt-6 flex flex-wrap gap-3">
+                            <div className="mt-4 md:mt-6 flex flex-wrap gap-3">
                                 <button
                                     onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                                     className="retro-btn text-xs px-4 py-2 flex items-center gap-2"
