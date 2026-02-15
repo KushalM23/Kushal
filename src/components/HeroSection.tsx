@@ -1,117 +1,273 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { profileData } from "@/data/mockData";
+import TypewriterText from "./TypewriterText";
+import { soundManager } from "@/utils/sounds";
+import CassetteBootAnimation from "./CassetteBootAnimation";
 
 /* ──────────────────────────────────────────────
-   HERO — Bio / Description section.
+   RETRO BOOT SCREEN → SHRINKING HEADER
    
-   Consistent animation tokens:
-   - ease:  [0.16, 1, 0.3, 1]  (expo out)
-   - scale: 0.95 → 1
-   - y:     40px
-   - duration: 0.8s base
+   - Boot overlay: "Press any key" (warms AudioContext)
+   - Name types out letter by letter (typewriter)
+   - Below: small cassette rewind animation
+   - Below: "Scroll to begin" text
+   - On scroll: entire intro shrinks into a
+     sticky top header bar showing just the name.
    ────────────────────────────────────────────── */
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+const HEADER_H = 54;
+const PRESERVE_HOME_SCROLL_KEY = "home:preserve-scroll";
+const HOME_SCROLL_POS_KEY = "home:scroll-pos";
 
-export default function HeroSection() {
-    const words = profileData.bio.split(" ");
-    const sectionRef = useRef<HTMLElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"],
-    });
-
-    /* Parallax — content drifts upward as you scroll */
-    const contentY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-    /* Section scale — uniform entrance/exit */
-    const sectionScale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.95, 1, 1, 0.95]);
-    const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-
+function CassetteRewind() {
     return (
-        <motion.section
-            ref={sectionRef}
-            id="about"
-            className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
-            style={{ scale: sectionScale, opacity: sectionOpacity }}
-        >
-            {/* ── WAVE LAYERS ── */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <svg className="absolute top-[15%] left-0 w-[200%] h-[180px] opacity-[0.035] animate-wave-drift" viewBox="0 0 2880 180" preserveAspectRatio="none">
-                    <path d="M0,90 C320,30 640,150 960,90 C1280,30 1600,150 1920,90 C2240,30 2560,150 2880,90" fill="none" stroke="var(--color-fg)" strokeWidth="2" />
-                </svg>
-                <svg className="absolute top-[40%] left-0 w-[200%] h-[140px] opacity-[0.025] animate-wave-float" viewBox="0 0 2880 140" preserveAspectRatio="none">
-                    <path d="M0,70 C360,120 720,20 1080,70 C1440,120 1800,20 2160,70 C2520,120 2880,20 2880,70" fill="none" stroke="var(--color-fg)" strokeWidth="1.5" />
-                </svg>
-                <svg className="absolute bottom-[20%] left-0 w-[200%] h-[120px] opacity-[0.04] animate-wave-float-rev" viewBox="0 0 2880 120" preserveAspectRatio="none">
-                    <path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 C1680,100 1920,20 2160,60 C2400,100 2640,20 2880,60" fill="none" stroke="var(--color-fg)" strokeWidth="1.5" />
-                </svg>
-                <svg className="absolute -bottom-1 left-0 w-full h-[120px] opacity-[0.06]" viewBox="0 0 1440 120" preserveAspectRatio="none">
-                    <path d="M0,80 C240,30 480,100 720,60 C960,20 1200,90 1440,50 L1440,120 L0,120 Z" fill="var(--color-fg)" />
+        <div className="flex items-center justify-center gap-4">
+            <div className="w-10 h-10 animate-reel-spin">
+                <svg viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="14" fill="none" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <circle cx="16" cy="16" r="6" fill="none" stroke="var(--color-border)" strokeWidth="1" />
+                    <circle cx="16" cy="16" r="2" fill="var(--color-fg-faint)" />
+                    {[0, 120, 240].map((a) => (
+                        <line
+                            key={a}
+                            x1="16" y1="16"
+                            x2={16 + 12 * Math.cos((a * Math.PI) / 180)}
+                            y2={16 + 12 * Math.sin((a * Math.PI) / 180)}
+                            stroke="var(--color-border)"
+                            strokeWidth="0.8"
+                        />
+                    ))}
                 </svg>
             </div>
-
-            {/* ── CONTENT with parallax ── */}
-            <motion.div
-                className="max-w-4xl mx-auto text-center relative z-10"
-                style={{ y: contentY }}
-            >
-                {/* Tagline */}
-                <motion.p
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, margin: "-80px" }}
-                    transition={{ duration: 0.8, ease: EASE }}
-                    className="text-sm font-semibold uppercase tracking-[0.25em] text-fg-muted mb-8"
-                >
-                    {profileData.tagline}
-                </motion.p>
-
-                {/* Bio — word-by-word stagger */}
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.15] tracking-tight text-fg mb-10">
-                    {words.map((word, i) => (
-                        <motion.span
-                            key={i}
-                            className="inline-block mr-[0.3em]"
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: false, margin: "-50px" }}
-                            transition={{
-                                duration: 0.7,
-                                delay: i * 0.025,
-                                ease: EASE,
-                            }}
-                        >
-                            {word}
-                        </motion.span>
-                    ))}
-                </h1>
-
-                {/* CTA */}
+            <div className="relative w-20 h-0.5 bg-border overflow-hidden">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false }}
-                    transition={{ delay: 0.6, duration: 0.8, ease: EASE }}
-                >
-                    <a
-                        href="#projects"
-                        className="group inline-flex items-center gap-3 text-fg font-semibold text-sm uppercase tracking-widest"
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage: "none",
+                    }}
+                    animate={{ x: [0, 8] }}
+                    transition={{
+                        duration: 0.5,
+                        repeat: Infinity,
+                        ease: "linear",
+                    }}
+                />
+            </div>
+            <div className="w-10 h-10 animate-reel-slow">
+                <svg viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="14" fill="none" stroke="var(--color-border-light)" strokeWidth="1.5" />
+                    <circle cx="16" cy="16" r="6" fill="none" stroke="var(--color-border)" strokeWidth="1" />
+                    <circle cx="16" cy="16" r="2" fill="var(--color-fg-faint)" />
+                    {[0, 120, 240].map((a) => (
+                        <line
+                            key={a}
+                            x1="16" y1="16"
+                            x2={16 + 12 * Math.cos((a * Math.PI) / 180)}
+                            y2={16 + 12 * Math.sin((a * Math.PI) / 180)}
+                            stroke="var(--color-border)"
+                            strokeWidth="0.8"
+                        />
+                    ))}
+                </svg>
+            </div>
+        </div>
+    );
+}
+
+export default function HeroSection() {
+    const [vh, setVh] = useState(800);
+    const [isLocked, setIsLocked] = useState(false);
+    const [hasBooted, setHasBooted] = useState(false);
+    const [pageProgress, setPageProgress] = useState(0);
+    const justLockedRef = useRef(false);
+
+    useEffect(() => {
+        setVh(window.innerHeight);
+        const onResize = () => setVh(window.innerHeight);
+        window.addEventListener("resize", onResize);
+
+        // Prevent browser from auto-restoring scroll position
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Check if returning from a project/blog page via back-nav
+        const shouldPreserveScroll = sessionStorage.getItem(PRESERVE_HOME_SCROLL_KEY) === "1";
+        sessionStorage.removeItem(PRESERVE_HOME_SCROLL_KEY);
+
+        if (shouldPreserveScroll) {
+            // Skip intro & boot screen — go straight to locked header state
+            setHasBooted(true);
+            setIsLocked(true);
+            // Restore saved scroll position
+            const savedPos = sessionStorage.getItem(HOME_SCROLL_POS_KEY);
+            sessionStorage.removeItem(HOME_SCROLL_POS_KEY);
+            if (savedPos) {
+                const pos = parseInt(savedPos, 10);
+                // Use rAF to ensure DOM has settled before restoring scroll
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, pos);
+                });
+            } else {
+                window.scrollTo(0, 0);
+            }
+        } else {
+            // Fresh load or reload: always start at top
+            window.scrollTo(0, 0);
+        }
+
+        return () => {
+            window.removeEventListener("resize", onResize);
+        };
+    }, []);
+
+    // Boot screen — body overflow locked while cassette animation plays
+    useEffect(() => {
+        if (hasBooted) {
+            document.body.style.overflow = '';
+            return;
+        }
+
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [hasBooted]);
+
+    const scrollEnd = vh * 0.5;
+    const { scrollY } = useScroll();
+
+    // Transforms
+    const sectionHeight = useTransform(scrollY, [0, scrollEnd], [vh, HEADER_H], { clamp: true });
+    // Font size stops shrinking at 60% scroll, stays at 24px (sticky)
+    const nameFontSize = useTransform(scrollY, [0, scrollEnd * 0.6], [64, 28], { clamp: true });
+    const extraContentOpacity = useTransform(scrollY, [0, scrollEnd * 0.4], [1, 0], { clamp: true });
+
+    // One-Way Scroll Logic — lock when scrolled past intro
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        if (!isLocked && latest >= scrollEnd) {
+            justLockedRef.current = true;
+            setIsLocked(true);
+        }
+    });
+
+    // When locking, spacer shrinks — adjust scroll to keep content in place
+    useLayoutEffect(() => {
+        if (justLockedRef.current) {
+            justLockedRef.current = false;
+            const adjusted = Math.max(0, window.scrollY - scrollEnd);
+            window.scrollTo(0, adjusted);
+        }
+    }, [isLocked, scrollEnd]);
+
+    // Page scroll progress (only after header locks)
+    useEffect(() => {
+        if (!isLocked) return;
+
+        const handleScroll = () => {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            if (maxScroll > 0) {
+                setPageProgress(Math.min(1, Math.max(0, window.scrollY / maxScroll)));
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isLocked]);
+
+    return (
+        <>
+            {/* Boot overlay — cassette insertion animation */}
+            {!hasBooted && (
+                <CassetteBootAnimation onComplete={() => {
+                    soundManager?.warmUp();
+                    setHasBooted(true);
+                }} />
+            )}
+
+
+            <motion.div
+                className="fixed top-0 left-0 right-0 z-100 border-b border-border bg-bg"
+                style={{
+                    height: isLocked ? HEADER_H : sectionHeight,
+                    willChange: "height",
+                }}
+            >
+                
+            {/* Scanlines */}
+                    <div
+                        className="absolute inset-0 pointer-events-none z-10"
+                        style={{
+                            background:
+                                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)",
+                        }}
+                    />
+                {/* Name container — always centered and visible */}
+                <div className="h-full flex items-center justify-center px-4">
+                    <motion.h1
+                        className="typewriter-font text-fg font-bold leading-none whitespace-nowrap"
+                        style={{
+                            fontSize: isLocked ? 28 : nameFontSize,
+                        }}
                     >
-                        <span>View Work</span>
-                        <motion.span
-                            animate={{ x: [0, 6, 0] }}
-                            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-                            className="text-red"
+                        {hasBooted ? (
+                            isLocked ? (
+                                <>{profileData.name}<span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span></>
+                            ) : (
+                                <TypewriterText
+                                    key="hero-name"
+                                    text={profileData.name}
+                                    delay={0.3}
+                                    speed={50}
+                                    mute={false}
+                                    showCursor={true}
+                                />
+                            )
+                        ) : null}
+                    </motion.h1>
+                </div>
+
+                {/* Extra content — positioned below name, fades out */}
+                {!isLocked && hasBooted && (
+                    <motion.div
+                        className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-6"
+                        style={{ opacity: extraContentOpacity }}
+                    >
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.5, duration: 0.3 }}
                         >
-                            →
-                        </motion.span>
-                    </a>
-                </motion.div>
+                            <CassetteRewind />
+                        </motion.div>
+
+                        <motion.div
+                            className="text-xs text-fg-muted tracking-[0.15em] uppercase"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.8, duration: 0.3 }}
+                        >
+                            <TypewriterText text="Scroll to begin playback" delay={2.0} speed={20} showCursor={true} />
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {/* Scroll Progress Bar — only after header locks, tracks page content scroll */}
+                {isLocked && (
+                    <div
+                        className="absolute bottom-0 left-0 h-0.5 bg-red z-50"
+                        style={{ width: `${pageProgress * 100}%`, transition: 'width 100ms linear' }}
+                    />
+                )}
             </motion.div>
-        </motion.section>
+
+            {/* Spacer — shrinks to header height when locked (prevents upward scroll overshoot) */}
+            <div style={{ height: isLocked ? `${HEADER_H}px` : `${scrollEnd + HEADER_H}px`, overflowAnchor: 'none' as const }} />
+        </>
     );
 }

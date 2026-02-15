@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Aleo } from "next/font/google";
 import "./globals.css";
+import ButtonClickSound from "@/components/ButtonClickSound";
 
-const spaceGrotesk = Space_Grotesk({
+const aleo = Aleo({
   subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-mono",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Kushal M | Portfolio",
-  description: "Full-Stack Developer. Builder. Problem Solver.",
+  title: "Kushal",
+  description: "Software Engineer.",
 };
 
 export default function RootLayout({
@@ -19,8 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={spaceGrotesk.variable}>
-      <body className="antialiased">{children}</body>
+    <html lang="en" className={`${aleo.variable}`}>
+      <body className="antialiased">
+        <ButtonClickSound />
+          {children}
+      </body>
     </html>
   );
 }

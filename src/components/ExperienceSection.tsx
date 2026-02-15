@@ -1,146 +1,106 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { experienceData } from "@/data/mockData";
+import RetroWindow from "./RetroWindow";
+import TypewriterText from "./TypewriterText";
 
 /* ──────────────────────────────────────────────
-   EXPERIENCE — Wavy timeline connector
+   TERMINAL WINDOW → TYPEWRITER DOCUMENT
    
-   Consistent tokens:
-   - ease:  [0.16, 1, 0.3, 1]
-   - scale: 0.95 → 1
-   - y:     40px
+   Experience rendered as a typed document,
+   NOT a cmd terminal. Uses typewriter paper
+   styling with mechanical key-strike animations.
    ────────────────────────────────────────────── */
 
-const EASE = [0.16, 1, 0.3, 1] as const;
-
 export default function ExperienceSection() {
-    const sectionRef = useRef<HTMLElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"],
-    });
-
-    const sectionScale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.95, 1, 1, 0.95]);
-    const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-    const headingY = useTransform(scrollYProgress, [0, 0.25], [40, 0]);
-
     return (
-        <motion.section
-            ref={sectionRef}
-            id="experience"
-            className="py-32 px-6 relative overflow-hidden"
-            style={{ scale: sectionScale, opacity: sectionOpacity }}
-        >
-            {/* Background wave */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <svg className="absolute top-[10%] right-0 w-[200%] h-[100px] opacity-[0.02] animate-wave-float" viewBox="0 0 2880 100" preserveAspectRatio="none">
-                    <path d="M0,50 C360,90 720,10 1080,50 C1440,90 1800,10 2160,50 C2520,90 2880,10 2880,50" fill="none" stroke="var(--color-fg)" strokeWidth="1.5" />
-                </svg>
-            </div>
-
-            <div className="max-w-5xl mx-auto relative z-10">
-                {/* Section heading — matches all other headings */}
-                <motion.div
-                    className="text-center mb-24"
-                    style={{ y: headingY }}
-                >
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false }}
-                        transition={{ duration: 0.8, ease: EASE }}
-                    >
-                        <svg viewBox="0 0 120 16" className="w-20 h-4 mx-auto mb-4 opacity-20">
-                            <path d="M0,8 Q15,0 30,8 T60,8 T90,8 T120,8" fill="none" stroke="var(--color-fg)" strokeWidth="2" strokeLinecap="round" />
-                        </svg>
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-fg">
-                            Experience
-                        </h2>
-                    </motion.div>
-                </motion.div>
-
-                {/* Timeline */}
-                <div className="relative">
-                    {/* Wavy line (desktop) */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[40px] pointer-events-none hidden md:block">
-                        <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 40 1000">
-                            <path
-                                d="M20,0 C35,50 5,100 20,150 C35,200 5,250 20,300 C35,350 5,400 20,450 C35,500 5,550 20,600 C35,650 5,700 20,750 C35,800 5,850 20,900 C35,950 20,1000 20,1000"
-                                fill="none"
-                                stroke="var(--color-border)"
-                                strokeWidth="2"
-                                vectorEffect="non-scaling-stroke"
-                            />
-                        </svg>
-                    </div>
-                    {/* Simple line (mobile) */}
-                    <div className="absolute left-4 top-0 bottom-0 w-px bg-border md:hidden" />
-
-                    <div className="space-y-20 md:space-y-28">
-                        {experienceData.map((exp, i) => (
-                            <motion.div
-                                key={exp.id}
-                                initial={{
-                                    opacity: 0,
-                                    y: 40,
-                                    x: i % 2 === 0 ? 40 : -40,
-                                }}
-                                whileInView={{
-                                    opacity: 1,
-                                    y: 0,
-                                    x: 0,
-                                }}
-                                viewport={{ once: false, margin: "-60px" }}
-                                transition={{
-                                    duration: 0.8,
-                                    delay: i * 0.08,
-                                    ease: EASE,
-                                }}
-                                className={`relative flex flex-col md:flex-row items-start ${i % 2 === 0 ? "md:flex-row-reverse" : ""
-                                    }`}
-                            >
-                                {/* Timeline dot */}
-                                <div className="absolute left-4 md:left-1/2 top-8 w-3 h-3 rounded-full bg-fg border-4 border-bg -translate-x-1.5 md:-translate-x-1.5 z-10 shadow-sm" />
-
-                                {/* Card */}
-                                <div className="w-full md:w-[calc(50%-40px)] ml-12 md:ml-0">
-                                    <div className="color-on-hover p-8 bg-card rounded-2xl border border-border/40 shadow-sm hover:shadow-xl hover:border-red/20 hover:-translate-y-1 transition-all duration-500 relative overflow-hidden">
-                                        {/* Wave decoration */}
-                                        <svg className="absolute -bottom-1 -right-4 w-28 h-14 opacity-[0.04]" viewBox="0 0 120 60">
-                                            <path d="M0,30 Q15,10 30,30 T60,30 T90,30 T120,30" fill="none" stroke="var(--color-fg)" strokeWidth="2" />
-                                        </svg>
-
-                                        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-muted block mb-3">
-                                            {exp.dates}
-                                        </span>
-                                        <h3 className="text-xl font-bold text-fg mb-1">{exp.title}</h3>
-                                        <p className="text-sm font-medium text-fg-muted uppercase tracking-wider mb-5">
-                                            {exp.company}
-                                        </p>
-                                        <ul className="space-y-2.5">
-                                            {exp.bullets.map((b, idx) => (
-                                                <li
-                                                    key={idx}
-                                                    className="text-sm text-fg-muted leading-relaxed flex items-start gap-2.5"
-                                                >
-                                                    <span className="w-1 h-1 rounded-full bg-red mt-2 shrink-0" />
-                                                    {b}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                {/* Spacer */}
-                                <div className="hidden md:block w-[calc(50%-40px)]" />
-                            </motion.div>
-                        ))}
+        <section id="experience" className="px-1 md:px-2 mb-6">
+            <RetroWindow title="EXPERIENCE.doc" variant="normal" delay={0.2}>
+                {/* Document header */}
+                <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+                    <span className="tape-label">▶ SIDE B — CAREER LOG</span>
+                    <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 animate-reel-slow opacity-50">
+                            <svg viewBox="0 0 16 16">
+                                <circle cx="8" cy="8" r="7" fill="none" stroke="var(--color-fg-muted)" strokeWidth="0.8" />
+                                <circle cx="8" cy="8" r="3" fill="none" stroke="var(--color-fg-muted)" strokeWidth="0.5" />
+                                <circle cx="8" cy="8" r="1" fill="var(--color-fg-faint)" />
+                            </svg>
+                        </div>
+                        <span className="text-[10px] text-fg-faint">{experienceData.length} entry</span>
                     </div>
                 </div>
-            </div>
-        </motion.section>
+
+                {/* Typewriter paper body */}
+                <div className="paper-insert paper-lines p-6 pl-14 md:p-8 md:pl-16">
+                    {experienceData.map((exp, i) => (
+                        <motion.div
+                            key={exp.id}
+                            className="mb-8 last:mb-2"
+                            initial={{ opacity: 0, y: 6 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{
+                                delay: 0.1 + i * 0.1,
+                                duration: 0.15,
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 30,
+                            }}
+                        >
+                            {/* Role + Company */}
+                            <h3
+                                className="typewriter-font text-lg md:text-xl mb-0.5"
+                                style={{ color: "var(--color-ink)" }}
+                            >
+                                <TypewriterText className="text-xl font-bold" text={exp.title} delay={0.2} showCursor={true} />
+                            </h3>
+                            <p className="text-sm typewriter-font font-semibold mb-1" style={{ color: "var(--color-red)" }}>
+                                @ <TypewriterText text={exp.company} delay={0.4} showCursor={true} />
+                            </p>
+                            <p
+                                className="text-[11px] mb-3 tracking-wider uppercase"
+                                style={{ color: "var(--color-fg-faint)" }}
+                            >
+                                <TypewriterText text={exp.dates} delay={0.6} speed={10} showCursor={true} />
+                            </p>
+
+                            {/* Bullets — typed on the paper */}
+                            <div className="space-y-2">
+                                {exp.bullets.map((b, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="typewriter-font text-md leading-7"
+                                        style={{ color: "var(--color-ink)" }}
+                                    >
+                                        <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" showCursor={true} />
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Separator between entries */}
+                            {i < experienceData.length - 1 && (
+                                <div className="mt-5 flex items-center gap-2">
+                                    <div className="flex-1 border-t border-dashed" style={{ borderColor: "rgba(44,36,22,0.15)" }} />
+                                    <span className="text-[9px] tracking-[0.3em] uppercase" style={{ color: "rgba(44,36,22,0.3)" }}>
+                                        EXP-{String(i + 1).padStart(3, "0")}
+                                    </span>
+                                    <div className="flex-1 border-t border-dashed" style={{ borderColor: "rgba(44,36,22,0.15)" }} />
+                                </div>
+                            )}
+                        </motion.div>
+                    ))}
+
+                    {/* End of document */}
+                    <div className="pt-4 text-center">
+                        <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "rgba(44,36,22,0.3)" }}>
+                            — END OF CAREER LOG —
+                        </span>
+                    </div>
+                </div>
+            </RetroWindow>
+        </section>
     );
 }
