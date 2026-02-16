@@ -254,7 +254,7 @@ export default function HeroSection() {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 1.8, duration: 0.3 }}
                         >
-                            <TypewriterText text="Scroll to begin playback" delay={2.0} speed={20} showCursor={true} />
+                            <TypewriterText text="Scroll to begin playback" delay={2.0} speed={20} showCursor={true} startWhenInitiallyVisible={true} />
                         </motion.div>
                     </motion.div>
                 )}

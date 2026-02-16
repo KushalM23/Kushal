@@ -37,15 +37,24 @@ export default function CassetteWidget() {
 
     // Sound logic
     useEffect(() => {
-        if (status === "rewinding") {
+        if (status === "playing") {
+            soundManager?.stopCassetteWhir();
+            soundManager?.startCassettePlayLoop();
+        } else if (status === "rewinding") {
+            soundManager?.stopCassettePlayLoop();
             soundManager?.startCassetteWhir(true);
         } else if (status === "fastforwarding") {
+            soundManager?.stopCassettePlayLoop();
             soundManager?.startCassetteWhir(false);
         } else {
+            soundManager?.stopCassettePlayLoop();
             soundManager?.stopCassetteWhir();
         }
 
-        return () => soundManager?.stopCassetteWhir();
+        return () => {
+            soundManager?.stopCassettePlayLoop();
+            soundManager?.stopCassetteWhir();
+        };
     }, [status]);
 
     const changeStatus = useCallback((newStatus: CassetteState) => {
