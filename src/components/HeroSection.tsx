@@ -225,7 +225,7 @@ export default function HeroSection() {
                                     key="hero-name"
                                     text={profileData.name}
                                     delay={0.3}
-                                    speed={50}
+                                    speed={150}
                                     mute={false}
                                     showCursor={true}
                                 />
