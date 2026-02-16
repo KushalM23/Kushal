@@ -12,6 +12,9 @@ const aleo = Aleo({
 export const metadata: Metadata = {
   title: "Kushal",
   description: "Software Engineer.",
+  icons: {
+    icon: '/favicon.ico'
+  },
 };
 
 export default function RootLayout({

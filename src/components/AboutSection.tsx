@@ -28,7 +28,7 @@ export default function AboutSection() {
                             <div className="relative">
                                 <div className="w-32 h-32 md:w-44 md:h-44 border-2 border-border-strong overflow-hidden bg-bg">
                                     <Image
-                                        src="/profile pic wo bg.png"
+                                        src="/profilebg.png"
                                         alt="Kushal"
                                         width={176}
                                         height={176}

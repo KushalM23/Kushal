@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, animate } from "framer-motion";
 import TypewriterText from "@/components/TypewriterText";
+import { soundManager } from "@/utils/sounds";
 
 /* ──────────────────────────────────────────────
    CASSETTE BOOT ANIMATION — retro style
@@ -87,6 +88,10 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
     const dragX = useMotionValue(0);
     const dragY = useMotionValue(0);
 
+    useEffect(() => {
+        soundManager?.warmUp();
+    }, []);
+
     const insertCassette = useCallback(() => {
         if (hasStartedRef.current) return;
         hasStartedRef.current = true;
@@ -95,6 +100,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
 
         // Disable drag immediately
         setPhase("snapping");
+        soundManager?.playClick();
 
         const slitRect = slitRef.current.getBoundingClientRect();
         const cassRect = cassetteRef.current.getBoundingClientRect();
@@ -119,6 +125,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
         ]).then(() => {
             // ── Phase 2: Slide under deck ──
             setPhase("sliding");
+            soundManager?.playInsertCassette();
             // Move cassette top to just inside the deck's top edge
             // so it's fully hidden behind the deck body
             const slideUpTarget = (deckRect.top + 2) - cassetteNaturalTop;

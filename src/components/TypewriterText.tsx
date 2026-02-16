@@ -13,6 +13,7 @@ interface TypewriterTextProps {
     wrapperClassName?: string;
     showCursor?: boolean;
     mute?: boolean;
+    startWhenInitiallyVisible?: boolean;
 }
 
 export default function TypewriterText({
@@ -24,10 +25,12 @@ export default function TypewriterText({
     wrapperClassName = "",
     showCursor = false,
     mute = true,
+    startWhenInitiallyVisible = false,
 }: TypewriterTextProps) {
     const [displayedText, setDisplayedText] = useState("");
     const [isComplete, setIsComplete] = useState(false);
-    const ref = React.useRef(null);
+    const [shouldStart, setShouldStart] = useState(false);
+    const ref = React.useRef<HTMLElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-50px 0px" });
 
     // Auto-adjust speed for long text to avoid painfully slow rendering
@@ -35,6 +38,41 @@ export default function TypewriterText({
 
     useEffect(() => {
         if (isInView) {
+            setShouldStart(true);
+        }
+    }, [isInView]);
+
+    useEffect(() => {
+        if (!startWhenInitiallyVisible || shouldStart) return;
+
+        const node = ref.current;
+        if (!node) return;
+
+        const checkVisibility = () => {
+            const rect = node.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+            const isVerticallyVisible = rect.top < viewportHeight - 8 && rect.bottom > 8;
+            const isHorizontallyVisible = rect.left < viewportWidth && rect.right > 0;
+
+            if (isVerticallyVisible && isHorizontallyVisible) {
+                setShouldStart(true);
+            }
+        };
+
+        checkVisibility();
+        const frameId = requestAnimationFrame(checkVisibility);
+        window.addEventListener("resize", checkVisibility, { passive: true });
+
+        return () => {
+            cancelAnimationFrame(frameId);
+            window.removeEventListener("resize", checkVisibility);
+        };
+    }, [shouldStart, startWhenInitiallyVisible]);
+
+    useEffect(() => {
+        if (shouldStart) {
             setDisplayedText("");
             setIsComplete(false);
 
@@ -66,7 +104,7 @@ export default function TypewriterText({
                 if (intervalId) clearInterval(intervalId);
             };
         }
-    }, [isInView, text, delay, effectiveSpeed, mute]);
+    }, [shouldStart, text, delay, effectiveSpeed, mute]);
 
     return (
         <span ref={ref} className={wrapperClassName}>

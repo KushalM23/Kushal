@@ -29,7 +29,14 @@ export default function ButtonClickSound() {
             return false;
         };
 
-        const handleClick = (e: MouseEvent) => {
+        const handlePointerDown = (e: PointerEvent) => {
+            if (isInteractive(e.target as HTMLElement)) {
+                soundManager?.playClick();
+            }
+        };
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== "Enter" && e.key !== " ") return;
             if (isInteractive(e.target as HTMLElement)) {
                 soundManager?.playClick();
             }
@@ -44,9 +51,11 @@ export default function ButtonClickSound() {
         const events = ["click", "mousedown", "pointerdown", "keydown", "touchstart"] as const;
         events.forEach(e => document.addEventListener(e, warmUp, { capture: true, once: false }));
 
-        document.addEventListener("click", handleClick, true);
+        document.addEventListener("pointerdown", handlePointerDown, true);
+        document.addEventListener("keydown", handleKeyDown, true);
         return () => {
-            document.removeEventListener("click", handleClick, true);
+            document.removeEventListener("pointerdown", handlePointerDown, true);
+            document.removeEventListener("keydown", handleKeyDown, true);
             events.forEach(e => document.removeEventListener(e, warmUp, true));
         };
     }, []);
