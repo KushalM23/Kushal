@@ -78,14 +78,16 @@ function CassetteRewind() {
 }
 
 export default function HeroSection() {
-    const [vh, setVh] = useState(800);
-    const [isLocked, setIsLocked] = useState(false);
-    const [hasBooted, setHasBooted] = useState(false);
+    const [shouldPreserveScroll] = useState(
+        () => typeof window !== "undefined" && sessionStorage.getItem(PRESERVE_HOME_SCROLL_KEY) === "1"
+    );
+    const [vh, setVh] = useState(() => (typeof window === "undefined" ? 800 : window.innerHeight));
+    const [isLocked, setIsLocked] = useState(shouldPreserveScroll);
+    const [hasBooted, setHasBooted] = useState(shouldPreserveScroll);
     const [pageProgress, setPageProgress] = useState(0);
     const justLockedRef = useRef(false);
 
     useEffect(() => {
-        setVh(window.innerHeight);
         const onResize = () => setVh(window.innerHeight);
         window.addEventListener("resize", onResize);
 
@@ -95,13 +97,10 @@ export default function HeroSection() {
         }
 
         // Check if returning from a project/blog page via back-nav
-        const shouldPreserveScroll = sessionStorage.getItem(PRESERVE_HOME_SCROLL_KEY) === "1";
         sessionStorage.removeItem(PRESERVE_HOME_SCROLL_KEY);
 
         if (shouldPreserveScroll) {
             // Skip intro & boot screen — go straight to locked header state
-            setHasBooted(true);
-            setIsLocked(true);
             // Restore saved scroll position
             const savedPos = sessionStorage.getItem(HOME_SCROLL_POS_KEY);
             sessionStorage.removeItem(HOME_SCROLL_POS_KEY);
@@ -122,7 +121,7 @@ export default function HeroSection() {
         return () => {
             window.removeEventListener("resize", onResize);
         };
-    }, []);
+    }, [shouldPreserveScroll]);
 
     // Boot screen — body overflow locked while cassette animation plays
     useEffect(() => {

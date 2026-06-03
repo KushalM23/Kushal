@@ -28,7 +28,6 @@ export default function TypewriterText({
     startWhenInitiallyVisible = false,
 }: TypewriterTextProps) {
     const [displayedText, setDisplayedText] = useState("");
-    const [isComplete, setIsComplete] = useState(false);
     const [shouldStart, setShouldStart] = useState(false);
     const ref = React.useRef<HTMLElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-50px 0px" });
@@ -74,8 +73,6 @@ export default function TypewriterText({
     useEffect(() => {
         if (shouldStart) {
             setDisplayedText("");
-            setIsComplete(false);
-
             let currentIndex = 0;
             let intervalId: NodeJS.Timeout;
 
@@ -94,7 +91,6 @@ export default function TypewriterText({
                         currentIndex++;
                     } else {
                         clearInterval(intervalId);
-                        setIsComplete(true);
                     }
                 }, effectiveSpeed);
             }, delay * 1000);

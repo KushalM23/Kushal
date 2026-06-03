@@ -2,7 +2,7 @@
 
 import React, { useLayoutEffect } from "react";
 import { useParams, useRouter, notFound } from "next/navigation";
-import { blogData, profileData } from "@/data/mockData";
+import { blogData } from "@/data/mockData";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import LockedHeader from "@/components/LockedHeader";

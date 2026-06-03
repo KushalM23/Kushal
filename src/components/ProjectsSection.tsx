@@ -78,7 +78,7 @@ function ProjectFolder({
                             {project.title}
                         </h3>
                         <p className="text-[10px] text-fg-faint tracking-wider mt-0.5">
-                            TRACK {num} // {project.techStack[0]}
+                            TRACK {num} {"//"} {project.techStack[0]}
                         </p>
                     </div>
                     <div className={`transform transition-transform duration-400 ease-in-out ${isActive ? 'rotate-90' : 'rotate-0'}`}>

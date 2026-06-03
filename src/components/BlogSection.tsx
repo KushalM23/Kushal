@@ -21,7 +21,7 @@ export default function BlogSection() {
 
                     {/* Blog List */}
                     <div className="space-y-6 md:space-y-8">
-                        {blogData.map((post: BlogPost, i: number) => (
+                        {blogData.map((post: BlogPost) => (
                             <Link key={post.id} href={`/blog/${post.slug}`} className="group block" onClick={() => { sessionStorage.setItem("home:preserve-scroll", "1"); sessionStorage.setItem("home:scroll-pos", String(window.scrollY)); }}>
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
                                     <h3 className="text-lg font-bold text-fg typewriter-font group-hover:text-red transition-colors">

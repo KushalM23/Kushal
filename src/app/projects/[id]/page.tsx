@@ -1,6 +1,7 @@
 "use client";
 
 import React, { use, useLayoutEffect } from "react";
+import Image from "next/image";
 import { projectsData } from "@/data/mockData";
 import RetroWindow from "@/components/RetroWindow";
 import LockedHeader from "@/components/LockedHeader";
@@ -109,7 +110,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                     <ScrollAnimatedSection className="mb-6 md:mb-10" animationType="slide" delay={0.15}>
                         <div className="w-full aspect-video bg-bg-window border border-border-light relative overflow-hidden flex items-center justify-center group">
                             {project.previewImage ? (
-                                <img src={project.previewImage} alt={`${project.title} Preview`} className="object-cover w-full h-full" />
+                                <Image src={project.previewImage} alt={`${project.title} Preview`} className="object-cover w-full h-full" />
                             ) : (
                                 <div className="text-center text-fg-faint font-mono p-8">
                                     <div className="mb-2">
@@ -119,7 +120,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                         No Signal
                                     </div>
                                     <div className="mt-4 text-[10px] opacity-70">
-                                        // Preview data unavailable.
+                                        {"// Preview data unavailable."}
                                     </div>
                                 </div>
                             )}
@@ -155,7 +156,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
                                             <span className="text-red mt-0.5 shrink-0">— </span><TypewriterText text={feature} delay={0.8 + (i * 0.2)} speed={20} showCursor={true} />
                                         </li>
                                     )) || (
-                                            <li className="text-fg-faint italic">// No features listed.</li>
+                                            <li className="text-fg-faint italic">{"// No features listed."}</li>
                                         )}
                                 </ul>
                             </ScrollAnimatedSection>

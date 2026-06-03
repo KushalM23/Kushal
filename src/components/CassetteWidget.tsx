@@ -134,9 +134,6 @@ export default function CassetteWidget() {
     const leftReelRadius = 4 + (24 - 2) * (1 - tapeProgress);
     const rightReelRadius = 4 + (24 - 2) * tapeProgress;
 
-    // Determine if transport is active (reels should spin)
-    const isActive = status === "playing" || status === "fastforwarding" || status === "rewinding";
-
     const handleReelClick = () => {
         if (status === "idle" || status === "paused") {
             setReelRotation(r => r + 45);

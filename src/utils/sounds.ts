@@ -1,3 +1,7 @@
+type WindowWithWebkitAudioContext = Window & {
+    webkitAudioContext?: typeof AudioContext;
+};
+
 class SoundManager {
     private ctx: AudioContext | null = null;
     private masterGain: GainNode | null = null;
@@ -25,7 +29,15 @@ class SoundManager {
 
     private getCtx() {
         if (!this.ctx) {
-            this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const AudioContextConstructor =
+                window.AudioContext ||
+                (window as WindowWithWebkitAudioContext).webkitAudioContext;
+
+            if (!AudioContextConstructor) {
+                throw new Error("Web Audio API is not supported in this browser.");
+            }
+
+            this.ctx = new AudioContextConstructor();
             this.masterGain = this.ctx.createGain();
             this.masterGain.gain.value = 0.95;
             this.masterGain.connect(this.ctx.destination);
