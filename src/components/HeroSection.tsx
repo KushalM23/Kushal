@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { profileData } from "@/data/mockData";
 import TypewriterText from "./TypewriterText";
 import { soundManager } from "@/utils/sounds";
 import CassetteBootAnimation from "./CassetteBootAnimation";
@@ -77,7 +76,11 @@ function CassetteRewind() {
     );
 }
 
-export default function HeroSection() {
+interface HeroSectionProps {
+    name: string;
+}
+
+export default function HeroSection({ name }: HeroSectionProps) {
     const [shouldPreserveScroll] = useState(
         () => typeof window !== "undefined" && sessionStorage.getItem(PRESERVE_HOME_SCROLL_KEY) === "1"
     );
@@ -218,11 +221,11 @@ export default function HeroSection() {
                     >
                         {hasBooted ? (
                             isLocked ? (
-                                <>{profileData.name}<span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span></>
+                                <>{name}<span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span></>
                             ) : (
                                 <TypewriterText
                                     key="hero-name"
-                                    text={profileData.name}
+                                    text={name}
                                     delay={0.3}
                                     speed={150}
                                     mute={false}

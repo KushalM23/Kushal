@@ -1,0 +1,25 @@
+{
+  "name": "Kushal",
+  "role": "Software Engineer",
+  "tagline": "Software Engineer",
+  "bio": "I design and build software that solves real problems — from smart agriculture IoT dashboards to live sports scoreboards. I care deeply about clean code, thoughtful UX, and shipping products that people actually want to use.",
+  "github": "https://github.com/KushalM23",
+  "linkedin": "https://www.linkedin.com/in/kushalm2301/",
+  "email": "kushalm2301@gmail.com",
+  "education": [],
+  "experience": [
+    {
+      "id": "global-dream-connect",
+      "title": "Frontend Developer Intern",
+      "company": "Global Dream Connect",
+      "dates": "Jan 2026 — Present",
+      "bullets": [
+        "Contributed production ready components, layouts, and reusable patterns.",
+        "Helped building the company’s founding website using Next.js, TypeScript, and modern UI practices.",
+        "Implemented conditional rendering flows to handle dynamic UI states and user interactions.",
+        "Helped establish early coding standards and component structure with the engineering team"
+      ]
+    }
+  ],
+  "achievements": []
+}

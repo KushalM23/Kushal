@@ -1,9 +1,19 @@
 import React from "react";
 import RetroWindow from "./RetroWindow";
 import TypewriterText from "./TypewriterText";
-import { profileData } from "@/data/mockData";
+import { ProfileContent } from "@/types/content";
 
-export default function ContactSection() {
+interface ContactSectionProps {
+    profile: ProfileContent;
+}
+
+export default function ContactSection({ profile }: ContactSectionProps) {
+    const contactLinks = [
+        profile.email ? { href: `mailto:${profile.email}`, label: "[EMAIL]" } : null,
+        profile.linkedin ? { href: profile.linkedin, label: "[LINKEDIN]" } : null,
+        profile.github ? { href: profile.github, label: "[GITHUB]" } : null,
+    ].filter(Boolean) as Array<{ href: string; label: string }>;
+
     return (
         <section id="contact" className="px-1 md:px-2 mb-6">
             <RetroWindow
@@ -17,31 +27,17 @@ export default function ContactSection() {
                     </h2>
 
                     <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl justify-center">
-                        <a
-                            href={`mailto:${profileData.email}`}
-                            target="_blank"
-                            className="retro-btn py-3 px-4 md:py-4 md:px-6 flex items-center justify-center gap-3 flex-1 group"
-                        >
-                            <span className="text-xs md:text-sm font-bold tracking-wider">[EMAIL]</span>
-                        </a>
-
-                        <a
-                            href={profileData.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="retro-btn py-3 px-4 md:py-4 md:px-6 flex items-center justify-center gap-3 flex-1 group"
-                        >
-                            <span className="text-xs md:text-sm font-bold tracking-wider">[LINKEDIN]</span>
-                        </a>
-
-                        <a
-                            href={profileData.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="retro-btn py-3 px-4 md:py-4 md:px-6 flex items-center justify-center gap-3 flex-1 group"
-                        >
-                            <span className="text-xs md:text-sm font-bold tracking-wider">[GITHUB]</span>
-                        </a>
+                        {contactLinks.map((link) => (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                target={link.href.startsWith("mailto:") ? "_self" : "_blank"}
+                                rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                                className="retro-btn py-3 px-4 md:py-4 md:px-6 flex items-center justify-center gap-3 flex-1 group"
+                            >
+                                <span className="text-xs md:text-sm font-bold tracking-wider">{link.label}</span>
+                            </a>
+                        ))}
                     </div>
                 </div>
             </RetroWindow>

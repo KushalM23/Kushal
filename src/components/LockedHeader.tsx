@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { profileData } from "@/data/mockData";
 import { useRouter } from "next/navigation";
 
 const HEADER_H = 54;
 
 interface LockedHeaderProps {
+    name: string;
     onBackClick?: () => void;
 }
 
-export default function LockedHeader({ onBackClick }: LockedHeaderProps) {
+export default function LockedHeader({ name, onBackClick }: LockedHeaderProps) {
     const router = useRouter();
     const [pageProgress, setPageProgress] = useState(0);
 
@@ -61,7 +61,7 @@ export default function LockedHeader({ onBackClick }: LockedHeaderProps) {
                     onClick={handleClick}
                     className="typewriter-font text-fg font-bold text-[28px] leading-none hover:text-red transition-colors cursor-pointer"
                 >
-                    {profileData.name}
+                    {name}
                     <span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span>
                 </button>
             </div>
