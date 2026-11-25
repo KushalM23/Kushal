@@ -23,7 +23,9 @@ export const experienceData = (Array.isArray(content.experienceData) ? content.e
     dates: addedText(entry?.dates, "// NO_DATE_RANGE_ADDED"),
     bullets: addedList(entry?.bullets),
 }));
-export const blogData = (Array.isArray(content.blogData) ? content.blogData : []).map((post, index) => ({
+const blogEntries = (Array.isArray(content.blogData) ? content.blogData : []) as Array<Partial<BlogPost>>;
+
+export const blogData = blogEntries.map((post, index) => ({
     id: typeof post?.id === "number" ? post.id : index + 1,
     title: addedText(post?.title, "// NO_ENTRY_TITLE_ADDED"),
     date: addedText(post?.date, "// NO_DATE_ADDED"),
