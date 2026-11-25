@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { profileData } from "@/data/mockData";
+import { profileData } from "@/data/content";
 import { useRouter } from "next/navigation";
 
 const HEADER_H = 54;

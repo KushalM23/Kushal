@@ -1,0 +1,203 @@
+{
+  "profileData": {
+    "name": "Kushal",
+    "tagline": "Software Engineer",
+    "bio": "I design and build software that solves real problems and have fun doing it",
+    "github": "https://github.com/KushalM23",
+    "linkedin": "https://www.linkedin.com/in/kushalm23/",
+    "email": "kushal.230105@gmail.com",
+    "photo": "/profilebg.png",
+    "resume": "/resume.pdf",
+    "resumeFilename": "Kushal_Resume.pdf",
+    "siteTitle": "Kushal",
+    "siteDescription": "Software Engineer."
+  },
+  "experienceData": [
+    {
+      "id": 1,
+      "title": "Associate Software Engineer",
+      "company": "ReBIT",
+      "dates": "Jul 2026 — Present",
+      "bullets": [
+        "Delivering client-facing features for a 19-module, nationwide currency management system using Spring Boot and Angular.",
+        "Optimized query and application logic across 20+ endpoints in 5 modules to reduce API response times.",
+        "Integrating a custom notification service across 2 modules",
+        "Managing data migration between environments using Liquibase"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Frontend Engineer Intern",
+      "company": "Global Dream Connect",
+      "dates": "Jan 2026 — Apr 2026",
+      "bullets": [
+        "Contributed to the company’s founding website with Next.js and TypeScript, shipping 25+ production-ready UI components.",
+        "Established reusable component patterns and coding standards adopted across the codebase.",
+        "Implemented responsive layouts and conditional UI flows for dynamic user interactions."
+      ]
+    }
+  ],
+  "blogData": [],
+  "projects": [
+    {
+      "github": "https://github.com/KushalM23/Scoard",
+      "live": "https://scoard.onrender.com",
+      "funFacts": [
+        "I built this app because of how annoyed I was using the offical NBA app."
+      ],
+      "overrides": {
+        "title": "Scoard",
+        "description": "Real-time NBA platform with live game tracking, play-by-play visualization, virtual court playback, and league statistics.",
+        "longDescription": "Scoard is a modern NBA score application designed to simulate the feeling of watching a game without watching the broadcast. It combines live scores, game clocks, schedules, standings, box scores, player statistics, and play-by-play data in a responsive interface.\n\nThe application turns play-by-play events into a visual experience through a virtual court, sequential event playback, shot mapping, smart notifications, and contextual overlays. Its data layer uses the NBA CDN first and falls back to the NBA Stats API when archived or incomplete data requires another source.",
+        "architecture": "Scoard uses the Next.js App Router with serverless API routes for date-based game lists, game details, play-by-play data, standings, and per-game SSE streams. Shared TypeScript types and NBA API utilities normalize responses before they reach the UI.\n\nLive game pages use adaptive polling for game and play-by-play data, while the SSE pipeline exposes per-game updates in under 500 ms and reduces upstream API calls by 99%. The repository also documents an important deployment constraint: SSE poller state is held in process memory and is not shared across serverless instances.",
+        "features": [
+          "Live scoreboard with scores, game clocks, quarters, team records, and active-game state",
+          "Interactive court visualization for 300+ play-by-play events per game",
+          "Adaptive game and play-by-play updates with NBA CDN fallback to Stats API data",
+          "Schedules, box scores, player statistics, league standings, and previous matchups",
+          "Responsive dark interface with Framer Motion animations and contextual game alerts"
+        ],
+        "techStack": [
+          "Next.js 15",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Framer Motion",
+          "Axios",
+          "date-fns",
+          "NBA CDN API",
+          "NBA Stats API",
+          "Server-Sent Events"
+        ],
+        "previewImage": "public/screenshots/Scoard/1.png",
+        "screenshots": [
+          "public/screenshots/Scoard/1.png",
+          "public/screenshots/Scoard/2.png",
+          "public/screenshots/Scoard/3.png",
+          "public/screenshots/Scoard/4.png",
+          "public/screenshots/Scoard/5.png"
+        ],
+        "github": "https://github.com/KushalM23/Scoard",
+        "live": "https://scoard.onrender.com"
+      }
+    },
+    {
+      "github": "https://github.com/KushalM23/SmartAgriNode",
+      "live": "https://smart-agri-node.vercel.app",
+      "funFacts": [
+        "This was my final project for my college degree",
+        "We had to stay up all night because the 360 deg camera was rotating all the wires with it, unplugging the circuit.",
+        "The project worked for the first time only 2 hours before our presentation."
+      ],
+      "overrides": {
+        "title": "SmartAgriNode",
+        "description": "AI-powered agriculture platform combining soil analysis, live crop recommendations, weed detection, and a real-time dashboard.",
+        "longDescription": "SmartAgriNode is a full-stack agriculture platform that combines machine learning, computer vision, IoT hardware, and a web dashboard. It helps users make data-informed decisions through crop recommendations based on soil and environmental inputs, while a vision pipeline identifies weeds in field images.\n\nThe project includes a React and Vite frontend, a FastAPI backend, Supabase authentication and storage, trained crop and weed models, an agricultural dataset, and hardware support for ESP32 sensors and an ESP32-CAM. The repository also includes setup documentation for the backend, frontend, models, database schema, and hardware flow.",
+        "architecture": "The system is split into a hardware layer, a FastAPI backend, and a React frontend. The backend exposes authenticated crop-recommendation, weed-detection, health, history, and device endpoints, while Supabase provides authentication, PostgreSQL data, storage, and row-level security.\n\nSensor requests use an asynchronous command queue: the frontend asks the backend to queue a command, the ESP32 polls for work, hardware results are posted back, and the frontend retrieves the latest data. Weed scans use the same command-driven approach, rotating the camera in 45-degree steps to collect eight images for a 360-degree scan before running YOLOv8 and ONNX processing.",
+        "features": [
+          "Crop recommendations using soil NPK, temperature, humidity, pH, and rainfall inputs",
+          "YOLOv8 weed detection with PyTorch and ONNX Runtime model variants",
+          "Supabase authentication, PostgreSQL history, storage, and protected user data",
+          "ESP32 sensor and ESP32-CAM integration for asynchronous field data collection",
+          "React dashboard with soil, climate, crop, detection, and user-history views"
+        ],
+        "techStack": [
+          "React",
+          "Vite",
+          "FastAPI",
+          "Python",
+          "Supabase",
+          "PostgreSQL",
+          "scikit-learn",
+          "YOLOv8",
+          "ONNX Runtime",
+          "OpenCV",
+          "PyTorch",
+          "ESP32"
+        ],
+        "previewImage": "public/screenshots/SAN/1.png",
+        "screenshots": [
+          "public/screenshots/SAN/1.png",
+          "public/screenshots/SAN/2.png"
+        ],
+        "github": "https://github.com/KushalM23/SmartAgriNode",
+        "live": "https://smart-agri-node.vercel.app"
+      }
+    },
+    {
+      "github": "https://github.com/KushalM23/Dexter",
+      "funFacts": [
+        "The product idea came to me due to my friend's addiction with Pokemon Go.",
+        "The first version of this app was built during a hackathon"
+      ],
+      "overrides": {
+        "title": "Dexter",
+        "description": "Mobile-first species identification app that turns live wildlife captures into collectible cards and repeatable progression.",
+        "longDescription": "Dexter is a mobile-first species identification app built around the loop of going outside, capturing a live image, identifying the organism, and adding it to a personal wildlife binder. The product combines real-world discovery with collectible cards, rarity tiers, challenges, streaks, XP, and leaderboards.\n\nThe application is designed for mobile browsers and uses a capture flow to send observations through a species-identification pipeline. Identified species are enriched with taxonomy, images, and descriptions before becoming cards in the user's collection. The interface uses a physical binder metaphor with themed tabs, card reveals, and progression feedback.",
+        "architecture": "DexE is a Next.js application organized around route-level screens, feature modules, reusable UI primitives, and Supabase server/client helpers. The primary flows live under the app and features directories: authentication and onboarding, wildlife capture, collection, challenges, leaderboard, and profile.\n\nThe capture pipeline combines Google Gemini species identification with GBIF taxonomy, iNaturalist and GBIF media, and Wikipedia descriptions. Supabase handles Google authentication, PostgreSQL data, image storage, and collection/progression state. Zod is used for typed validation, while Framer Motion drives card reveals, tab transitions, and rarity-specific feedback.",
+        "features": [
+          "Camera-first wildlife capture flow for mobile browsers",
+          "AI-assisted species identification enriched with taxonomy and reference data",
+          "Collectible species cards with rarity tiers, XP, streaks, and profile progress",
+          "Challenges and leaderboard systems that turn observation into long-term progression",
+          "Supabase-backed authentication, storage, database state, and collection management"
+        ],
+        "techStack": [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Framer Motion",
+          "Supabase",
+          "Google Gemini",
+          "GBIF API",
+          "iNaturalist API",
+          "Wikipedia REST API",
+          "Zod",
+          "Vercel"
+        ],
+        "screenshots": [],
+        "github": "https://github.com/KushalM23/Dexter"
+      }
+    },
+    {
+      "github": "https://github.com/KushalM23/DoDo",
+      "funFacts": [
+        "This app was entirely build around me as the only user, everything I've ever wanted in a todo/productivity app",
+        ""
+      ],
+      "overrides": {
+        "title": "Dodo",
+        "description": "Cross-platform habit tracker combining task planning, progress monitoring, reminders, and lightweight gamification.",
+        "longDescription": "Dodo is a habit and productivity platform designed to combine task planning and progress monitoring in one consistent system. Users can organize recurring habits, complete scheduled work, write notes, manage reminders, and track streaks and completion history.\n\nThe project delivers the same product domain across a React Native mobile client, a Next.js web client, and a FastAPI backend. A central scheduling and sync system keeps habits and notifications consistent across clients, while Supabase provides authentication and PostgreSQL persistence.",
+        "architecture": "DoDo is structured as a multi-client workspace. The `dodomobile` application uses React Native navigation, context providers, native notification integrations, and shared API services. The `dodoweb` application uses Next.js, Supabase authentication, screen-oriented components, and the same backend contract.\n\nThe FastAPI backend groups authenticated endpoints by domain: tasks, categories, habits, notes, notifications, sync, and authentication. Supabase stores the application data and applies row-level security policies. The backend also contains progression logic, incremental synchronization, encrypted user-authored content, and deployment configuration for the API.",
+        "features": [
+          "Task planning with priorities, categories, deadlines, timers, completion, and undo support",
+          "Recurring habits with streaks, completion history, and progression tracking",
+          "Notes, preferences, profile settings, and authenticated account management",
+          "Cross-platform React Native and Next.js clients backed by one FastAPI API",
+          "Push notifications, incremental sync, Supabase persistence, and encrypted user content"
+        ],
+        "techStack": [
+          "React Native",
+          "Next.js",
+          "TypeScript",
+          "FastAPI",
+          "Python",
+          "Supabase",
+          "PostgreSQL",
+          "React Navigation",
+          "Firebase Cloud Messaging",
+          "Notifee",
+          "Pydantic",
+          "Render"
+        ],
+        "screenshots": [
+          "public/screenshots/Dodo/1.png",
+          "public/screenshots/Dodo/2.png"
+        ],
+        "github": "https://github.com/KushalM23/DoDo"
+      }
+    }
+  ]
+}

@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, animate } from "framer-motion";
-import TypewriterText from "@/components/TypewriterText";
 import { soundManager } from "@/utils/sounds";
 
 /* ──────────────────────────────────────────────
@@ -179,7 +178,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
                         {/* ─── DECK ─── (z-10 so cassette slides behind it) */}
                         <motion.div
                             className="w-60 md:w-88 relative z-10"
-                            initial={{ opacity: 0, y: 15 }}
+                            initial={{ opacity: 1, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.1 }}
                         >
@@ -244,7 +243,7 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
                         {/* ─── CASSETTE (draggable → snap → slide under deck) ─── */}
                         <motion.div
                             className="mt-14 relative z-0"
-                            initial={{ opacity: 0, y: 40 }}
+                            initial={{ opacity: 1, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, ease: "easeOut", delay: 0.25 }}
                         >
@@ -264,14 +263,9 @@ export default function CassetteBootAnimation({ onComplete }: { onComplete: () =
 
                     {/* Prompt */}
                     {phase === "waiting" && (
-                        <div className="mt-6 md:mt-10 z-1">
-                            <TypewriterText
-                                text="insert tape into the deck"
-                                className="text-[10px] font-mono text-fg-faint tracking-[0.15em] uppercase"
-                                speed={40}
-                                delay={0.5}
-                                showCursor={true}
-                            />
+                        <div className="mt-6 md:mt-10 relative z-20 text-[10px] font-mono text-fg-faint tracking-[0.15em] uppercase">
+                            <span>insert tape into the deck</span>
+                            <span className="text-red inline-block ml-0.5 font-bold animate-cursor-blink">_</span>
                         </div>
                     )}
                 </motion.div>

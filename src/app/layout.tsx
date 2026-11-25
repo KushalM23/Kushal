@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Aleo } from "next/font/google";
 import "./globals.css";
 import ButtonClickSound from "@/components/ButtonClickSound";
+import { profileData } from "@/data/content";
 
 const aleo = Aleo({
   subsets: ["latin"],
@@ -10,8 +11,8 @@ const aleo = Aleo({
 });
 
 export const metadata: Metadata = {
-  title: "Kushal",
-  description: "Software Engineer.",
+  title: profileData.siteTitle,
+  description: profileData.siteDescription,
   icons: {
     icon: '/favicon.ico'
   },

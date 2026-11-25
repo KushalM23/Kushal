@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { profileData } from "@/data/mockData";
+import { profileData } from "@/data/content";
 import RetroWindow from "./RetroWindow";
 import CassetteWidget from "./CassetteWidget";
 import TypewriterText from "./TypewriterText";
@@ -28,8 +28,8 @@ export default function AboutSection() {
                             <div className="relative">
                                 <div className="w-32 h-32 md:w-44 md:h-44 border-2 border-border-strong overflow-hidden bg-bg">
                                     <Image
-                                        src="/profilebg.png"
-                                        alt="Kushal"
+                                        src={profileData.photo}
+                                        alt={profileData.name}
                                         width={176}
                                         height={176}
                                         className="object-cover w-full h-full brightness-125 contrast-75 grayscale hover:grayscale-0 transition-all duration-500"
@@ -89,8 +89,8 @@ export default function AboutSection() {
                                 </button>
 
                                 <a
-                                    href="/resume.pdf"
-                                    download="Kushal_Resume.pdf"
+                                    href={profileData.resume}
+                                    download={profileData.resumeFilename}
                                     className="retro-btn text-xs px-4 py-2 flex items-center gap-2"
                                 >
                                     <span>[RESUME]</span>

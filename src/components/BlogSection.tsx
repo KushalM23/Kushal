@@ -2,7 +2,7 @@
 
 import React from "react";
 import RetroWindow from "./RetroWindow";
-import { blogData, BlogPost } from "@/data/mockData";
+import { blogData, type BlogPost } from "@/data/content";
 import { IconArrowRight } from "@tabler/icons-react";
 import TypewriterText  from "@/components/TypewriterText"
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function BlogSection() {
 
                     {/* Blog List */}
                     <div className="space-y-6 md:space-y-8">
-                        {blogData.map((post: BlogPost, i: number) => (
+                        {blogData.length > 0 ? blogData.map((post: BlogPost, i: number) => (
                             <Link key={post.id} href={`/blog/${post.slug}`} className="group block" onClick={() => { sessionStorage.setItem("home:preserve-scroll", "1"); sessionStorage.setItem("home:scroll-pos", String(window.scrollY)); }}>
                                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
                                     <h3 className="text-lg font-bold text-fg typewriter-font group-hover:text-red transition-colors">
@@ -39,7 +39,11 @@ export default function BlogSection() {
                                     </span>
                                 </div>
                             </Link>
-                        ))}
+                        )) : (
+                            <div className="font-typewrite-font text-xs text-fg-faint border border-dashed border-border p-4">
+                                <TypewriterText text="No thoughts logged yet" className="typewriter-font" speed={5} delay={0.1} showCursor={true} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </RetroWindow>

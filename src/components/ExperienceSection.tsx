@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { experienceData } from "@/data/mockData";
+import { experienceData } from "@/data/content";
 import RetroWindow from "./RetroWindow";
 import TypewriterText from "./TypewriterText";
 
@@ -35,7 +35,7 @@ export default function ExperienceSection() {
 
                 {/* Typewriter paper body */}
                 <div className="paper-insert paper-lines p-4 pl-4 md:p-8 md:pl-16">
-                    {experienceData.map((exp, i) => (
+                    {experienceData.length > 0 ? experienceData.map((exp, i) => (
                         <motion.div
                             key={exp.id}
                             className="mb-8 last:mb-2"
@@ -69,7 +69,7 @@ export default function ExperienceSection() {
 
                             {/* Bullets — typed on the paper */}
                             <div className="space-y-2">
-                                {exp.bullets.map((b, idx) => (
+                                {exp.bullets.length > 0 ? exp.bullets.map((b, idx) => (
                                     <div
                                         key={idx}
                                         className="typewriter-font text-md leading-7"
@@ -77,7 +77,11 @@ export default function ExperienceSection() {
                                     >
                                         <span style={{ color: "var(--color-red)" }}>—</span> <TypewriterText text={b} delay={0.8 + idx * 0.1} speed={5} wrapperClassName="inline" showCursor={true} />
                                     </div>
-                                ))}
+                                )) : (
+                                    <div className="typewriter-font text-md leading-7" style={{ color: "var(--color-ink)" }}>
+                                        <span style={{ color: "var(--color-red)" }}>—</span> // NO_CAREER_NOTES_ADDED
+                                    </div>
+                                )}
                             </div>
 
                             {/* Separator between entries */}
@@ -91,7 +95,11 @@ export default function ExperienceSection() {
                                 </div>
                             )}
                         </motion.div>
-                    ))}
+                    )) : (
+                        <div className="typewriter-font text-md leading-7" style={{ color: "var(--color-ink)" }}>
+                            // NO_CAREER_LOG_ADDED
+                        </div>
+                    )}
 
                     {/* End of document */}
                     <div className="pt-4 text-center">

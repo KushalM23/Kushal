@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { profileData } from "@/data/mockData";
+import { profileData } from "@/data/content";
 import TypewriterText from "./TypewriterText";
 import { soundManager } from "@/utils/sounds";
 import CassetteBootAnimation from "./CassetteBootAnimation";

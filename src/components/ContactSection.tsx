@@ -1,7 +1,7 @@
 import React from "react";
 import RetroWindow from "./RetroWindow";
 import TypewriterText from "./TypewriterText";
-import { profileData } from "@/data/mockData";
+import { profileData } from "@/data/content";
 
 export default function ContactSection() {
     return (

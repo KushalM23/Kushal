@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -7,6 +5,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import BlogSection from "@/components/BlogSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ContactSection from "@/components/ContactSection";
+import { getProjectsData } from "@/data/projects";
 
 /* ──────────────────────────────────────────────
    KUSHAL_OS DESKTOP
@@ -16,7 +15,8 @@ import ContactSection from "@/components/ContactSection";
    No separate header bar or taskbar.
    ────────────────────────────────────────────── */
 
-export default function Home() {
+export default async function Home() {
+  const projects = getProjectsData();
   return (
     <>
 
@@ -26,7 +26,7 @@ export default function Home() {
       {/* Desktop — content windows */}
       <main className="relative max-w-7xl mx-auto pb-8 pt-8 md:pt-12 px-1 md:px-4">
         <AboutSection />
-        <ProjectsSection />
+        <ProjectsSection projectsData={projects} />
         <ExperienceSection />
         <BlogSection />
         <ContactSection />

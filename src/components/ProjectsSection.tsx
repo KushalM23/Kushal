@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { projectsData, Project } from "@/data/mockData";
+import type { Project } from "@/data/content";
 import RetroWindow from "./RetroWindow";
 import TypewriterText from "./TypewriterText";
 import Link from "next/link";
@@ -78,7 +78,7 @@ function ProjectFolder({
                             {project.title}
                         </h3>
                         <p className="text-[10px] text-fg-faint tracking-wider mt-0.5">
-                            TRACK {num} // {project.techStack[0]}
+                            TRACK {num} // {project.techStack[0] || "NO_TECH_STACK_ADDED"}
                         </p>
                     </div>
                     <div className={`transform transition-transform duration-400 ease-in-out ${isActive ? 'rotate-90' : 'rotate-0'}`}>
@@ -103,17 +103,25 @@ function ProjectFolder({
                         style={{ willChange: "height, opacity", overflow: "hidden" }}
                     >
                         <div className="px-2 md:px-16 pb-2 border-t border-dashed border-border-strong pt-3 md:pt-4 mx-2 md:mx-4">
+                            {project.unavailable && (
+                                <div className="mb-4 border border-red/50 bg-red/5 p-3 font-mono text-xs text-red">
+                                    <div className="font-bold uppercase tracking-widest mb-1">PROJECT_DATA_UNAVAILABLE</div>
+                                    <div>{project.error || "Run the project-specific extraction command and try again."}</div>
+                                </div>
+                            )}
                             <div className="typewriter-font text-md leading-relaxed mb-4 text-fg-muted">
                                 <TypewriterText text={project.description} speed={25} delay={0.1} showCursor={true} />
                             </div>
 
                             {/* Tech stack */}
                             <div className="flex flex-wrap gap-2 mb-6">
-                                {project.techStack.map((t) => (
+                                {project.techStack.length > 0 ? project.techStack.map((t) => (
                                     <span key={t} className="text-[10px] font-mono border border-border px-2 py-1 text-fg-faint bg-bg-alt">
                                         {t}
                                     </span>
-                                ))}
+                                )) : (
+                                    <span className="text-[10px] font-mono text-fg-faint">// NO_TECH_STACK_ADDED</span>
+                                )}
                             </div>
 
                             {/* Actions */}
@@ -156,7 +164,7 @@ function ProjectFolder({
     );
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ projectsData }: { projectsData: Project[] }) {
     const [activeId, setActiveId] = useState<number | null>(null);
 
     const handleToggle = (id: number) => {
@@ -174,7 +182,7 @@ export default function ProjectsSection() {
 
                 {/* Vertical Stack Container */}
                 <div className="p-3 md:p-4 flex flex-col gap-3">
-                    {projectsData.map((project, i) => (
+                    {projectsData.length > 0 ? projectsData.map((project, i) => (
                         <ProjectFolder
                             key={project.id}
                             project={project}
@@ -182,7 +190,11 @@ export default function ProjectsSection() {
                             isActive={activeId === project.id}
                             onClick={() => handleToggle(project.id)}
                         />
-                    ))}
+                    )) : (
+                        <div className="border border-dashed border-border p-4 font-mono text-xs text-fg-faint">
+                            // NO_PROJECT_TRACKS_ADDED
+                        </div>
+                    )}
                 </div>
             </RetroWindow>
         </section>
